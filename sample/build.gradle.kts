@@ -1,0 +1,86 @@
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+
+plugins {
+    alias(libs.plugins.kotlin.multiplatform)
+    // alias(libs.plugins.kotlin.native.cocoapods)
+    alias(libs.plugins.compose)
+    alias(libs.plugins.android.application)
+}
+
+kotlin {
+    jvmToolchain(17)
+
+    jvm("desktop")
+    androidTarget()
+    // ios()
+
+    // cocoapods {
+    //     version = "1.0.0"
+    //     summary = "Some description for the Shared Module"
+    //     ios.deploymentTarget = "14.1"
+    //     framework {
+    //         baseName = "shared"
+    //         isStatic = true
+    //     }
+    // }
+
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation(project(":lib"))
+                implementation(compose.foundation)
+                implementation(compose.runtime)
+                implementation(compose.material3)
+                implementation(compose.materialIconsExtended)
+                implementation(libs.mpfilepicker)
+                implementation(libs.zoomable)
+            }
+        }
+
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.androidx.activity.compose)
+                implementation(libs.androidx.appcompat)
+            }
+        }
+
+        val desktopMain by getting {
+            dependencies {
+                implementation(compose.desktop.currentOs)
+            }
+        }
+    }
+}
+
+android {
+    namespace = "dev.zt64.compose.pdf.sample"
+    compileSdk = 34
+
+    defaultConfig {
+        targetSdk = 34
+        minSdk = 24
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = true
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+}
+
+compose.desktop {
+    application {
+        mainClass = "dev.zt64.compose.pdf.sample.MainKt"
+        nativeDistributions {
+            modules("java.instrument", "java.net.http")
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = "ComposePdf"
+            packageVersion = "1.0.0"
+        }
+    }
+}
