@@ -8,7 +8,7 @@ import java.net.URL
 
 /** Represents a PDF file. */
 @Stable
-public expect class PdfState : AutoCloseable {
+public expect class PdfState(file: File) : AutoCloseable {
     /** Total number of pages in the PDF file. */
     public val pageCount: Int
 

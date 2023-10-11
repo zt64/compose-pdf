@@ -1,6 +1,7 @@
 package dev.zt64.compose.pdf
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.gestures.ScrollableDefaults
 import androidx.compose.foundation.layout.Arrangement
@@ -9,13 +10,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-public fun Pdf(
+public fun PdfColumn(
     state: PdfState,
     modifier: Modifier = Modifier,
     lazyListState: LazyListState = rememberLazyListState(),
@@ -25,7 +26,7 @@ public fun Pdf(
         space = 8.dp,
         alignment = if (!reverseLayout) Alignment.Top else Alignment.Bottom
     ),
-    horizontalAlignment: Alignment.Horizontal = Alignment.Start,
+    horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     flingBehavior: FlingBehavior = ScrollableDefaults.flingBehavior(),
     userScrollEnabled: Boolean = true,
 ) {
@@ -43,17 +44,10 @@ public fun Pdf(
             count = state.pageCount,
             key = { index -> "$index"}
         ) { i ->
-            Image(
-                modifier = Modifier.fillParentMaxSize(),
-                painter = state.renderPage(i),
-                contentDescription = null
+            PdfPage(
+                state = state,
+                index = i,
             )
-        }
-    }
-
-    DisposableEffect(Unit) {
-        onDispose {
-            state.close()
         }
     }
 }
@@ -64,5 +58,9 @@ public fun PdfPage(
     index: Int,
     modifier: Modifier = Modifier
 ) {
-
+    Image(
+        modifier = modifier.background(Color.White),
+        painter = state.renderPage(index),
+        contentDescription = null
+    )
 }

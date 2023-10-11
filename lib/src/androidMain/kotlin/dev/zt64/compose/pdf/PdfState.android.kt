@@ -11,8 +11,6 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.platform.LocalContext
@@ -25,17 +23,18 @@ public actual class PdfState(private val pfd: ParcelFileDescriptor) : AutoClosea
 
     public actual val pageCount: Int = renderer.pageCount
 
+    public actual constructor(file: File) : this(
+        ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
+    )
+
     public actual fun renderPage(index: Int): BitmapPainter {
+        require(index in 0 until pageCount) { "Page index out of bounds" }
+
         val bmp: Bitmap
 
-        renderer.use {
-            val page = renderer.openPage(index)
-
-            bmp = ImageBitmap(page.width, page.height).asAndroidBitmap()
-
-            page.use {
-                page.render(bmp, null, null, Page.RENDER_MODE_FOR_DISPLAY)
-            }
+        renderer.openPage(index).use { page ->
+            bmp = Bitmap.createBitmap(page.width, page.height, Bitmap.Config.ARGB_8888)
+            page.render(bmp, null, null, Page.RENDER_MODE_FOR_DISPLAY)
         }
 
         return BitmapPainter(bmp.asImageBitmap())
@@ -46,6 +45,9 @@ public actual class PdfState(private val pfd: ParcelFileDescriptor) : AutoClosea
     }
 
     public companion object {
+        /**
+         * [Saver] implementation for [PdfState].
+         */
         public val Saver: Saver<PdfState, *> = listSaver(
             save = {
                 listOf(it.pfd)
@@ -65,14 +67,13 @@ public actual class PdfState(private val pfd: ParcelFileDescriptor) : AutoClosea
  */
 @Composable
 public fun rememberPdfState(pfd: ParcelFileDescriptor): PdfState {
-    val state = rememberSaveable(
-        pfd,
-        saver = PdfState.Saver
-    ) { PdfState(pfd) }
+    val state = rememberSaveable(pfd, saver = PdfState.Saver) {
+        PdfState(pfd)
+    }
 
-    DisposableEffect(pfd) {
+    DisposableEffect(state) {
         onDispose {
-            pfd.close()
+            state.close()
         }
     }
 
@@ -87,6 +88,8 @@ public fun rememberPdfState(pfd: ParcelFileDescriptor): PdfState {
  */
 @Composable
 public fun rememberPdfState(uri: Uri): PdfState {
+    require(uri.scheme == "content") { "URI is not a content URI" }
+
     val context = LocalContext.current
 
     return rememberPdfState(context.contentResolver.openFileDescriptor(uri, "r")!!)
@@ -100,9 +103,10 @@ public fun rememberPdfState(uri: Uri): PdfState {
  */
 @Composable
 public actual fun rememberPdfState(url: URL): PdfState {
-    val context = LocalContext.current
+    require(url.file.isNotEmpty()) { "URL does not have a file" }
+    require(url.file.endsWith(".pdf")) { "URL does not point to a PDF" }
 
-    return rememberPdfState(context.contentResolver.openFileDescriptor(Uri.parse(url.toString()), "r")!!)
+    TODO()
 }
 
 /**
@@ -113,5 +117,8 @@ public actual fun rememberPdfState(url: URL): PdfState {
  */
 @Composable
 public actual fun rememberPdfState(file: File): PdfState {
+    require(file.exists()) { "File does not exist" }
+    require(file.isFile) { "File is not a file" }
+
     return rememberPdfState(ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY))
 }

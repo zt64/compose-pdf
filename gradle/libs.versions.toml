@@ -1,6 +1,6 @@
 [versions]
 kotlin = "1.9.10"
-compose = "1.5.1"
+compose = "1.5.3"
 android = "8.1.2"
 androidx-activity = "1.8.0"
 androidx-appcompat = "1.6.1"

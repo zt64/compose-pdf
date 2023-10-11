@@ -18,7 +18,7 @@ class PdfTest {
                 rememberPdfState(it)
             } ?: error("dummy.pdf not found")
 
-            Pdf(state)
+            PdfColumn(state)
         }
     }
 
@@ -27,7 +27,7 @@ class PdfTest {
         compose.setContent {
             val state = rememberPdfState(URL(PDF_URL))
 
-            Pdf(state)
+            PdfColumn(state)
         }
 
         compose.waitForIdle()

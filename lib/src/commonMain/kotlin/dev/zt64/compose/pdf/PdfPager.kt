@@ -83,6 +83,6 @@ public fun PdfVerticalPager(
 }
 
 public object PdfDefaults {
-    public val pageHorizontalPadding: Dp = 16.dp
-    public val pageVerticalPadding: Dp = 16.dp
+    public val PageHorizontalSpacing: Dp = 16.dp
+    public val PageVerticalSpacing: Dp = 16.dp
 }

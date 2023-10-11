@@ -26,7 +26,7 @@ public actual class PdfState(private val document: Document) : AutoCloseable {
         }
     )
 
-    public constructor(file: File) : this(
+    public actual constructor(file: File) : this(
         document = Document().apply {
             setFile(file.absolutePath)
         }

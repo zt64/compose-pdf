@@ -12,11 +12,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import dev.zt64.compose.pdf.Pdf
+import dev.zt64.compose.pdf.PdfColumn
 import dev.zt64.compose.pdf.PdfState
 import me.saket.telephoto.zoomable.rememberZoomableState
 import me.saket.telephoto.zoomable.zoomable
@@ -24,7 +23,9 @@ import me.saket.telephoto.zoomable.zoomable
 @Composable
 fun Application() {
     Theme {
-        var pdf by remember { mutableStateOf<PdfState?>(null, referentialEqualityPolicy()) }
+        var pdf: PdfState? by remember {
+            mutableStateOf(null, referentialEqualityPolicy())
+        }
 
         if (pdf == null) {
             Box(
@@ -36,7 +37,7 @@ fun Application() {
 
                 PdfPicker(
                     show = showFilePicker,
-                    {
+                    onSelectFile = {
                         pdf = it
                         showFilePicker = false
                     }
@@ -46,7 +47,7 @@ fun Application() {
                     modifier = Modifier.align(Alignment.Center),
                     onClick = { showFilePicker = true }
                 ) {
-                    Text("Select PDF source")
+                    Text("Select PDF file")
                 }
             }
         } else {
@@ -58,7 +59,7 @@ fun Application() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun PdfScreen(
     pdf: PdfState,
@@ -100,7 +101,7 @@ private fun PdfScreen(
         ) {
             val lazyListState = rememberLazyListState()
 
-            Pdf(
+            PdfColumn(
                 modifier = Modifier.scale(scale),
                 state = pdf,
                 lazyListState = lazyListState,
