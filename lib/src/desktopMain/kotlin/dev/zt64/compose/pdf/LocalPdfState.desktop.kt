@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.painter.BitmapPainter
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import org.icepdf.core.pobjects.Document
 import org.icepdf.core.pobjects.Page
@@ -13,12 +14,12 @@ import java.io.File
 import java.io.InputStream
 import java.net.URL
 
-private const val SCALE = 1.0f
-private const val ROTATION = 0f
+internal const val SCALE = 1.0f
+internal const val ROTATION = 0f
 
 @Stable
-public actual class PdfState(private val document: Document) : AutoCloseable {
-    public actual val pageCount: Int = document.numberOfPages
+public actual class LocalPdfState(private val document: Document) : PdfState {
+    public actual override var pageCount: Int = document.numberOfPages
 
     public constructor(inputStream: InputStream) : this(
         document = Document().apply {
@@ -38,7 +39,7 @@ public actual class PdfState(private val document: Document) : AutoCloseable {
         }
     )
 
-    public actual fun renderPage(index: Int): BitmapPainter {
+    public actual override fun renderPage(index: Int): Painter {
         val image = document.getPageImage(
             /* pageNumber = */ index,
             /* renderHintType = */ GraphicsRenderingHints.SCREEN,
@@ -60,34 +61,34 @@ public actual class PdfState(private val document: Document) : AutoCloseable {
 }
 
 /**
- * Remembers a [PdfState] for the given [inputStream].
+ * Remembers a [LocalPdfState] for the given [inputStream].
  *
  * @param inputStream
- * @return [PdfState]
+ * @return [LocalPdfState]
  */
 @Composable
-public fun rememberPdfState(inputStream: InputStream): PdfState {
-    return remember { PdfState(inputStream) }
+public fun rememberLocalPdfState(inputStream: InputStream): LocalPdfState {
+    return remember { LocalPdfState(inputStream) }
 }
 
 /**
- * Remembers a [PdfState] for the given [url].
+ * Remembers a [LocalPdfState] for the given [url].
  *
  * @param url
- * @return [PdfState]
+ * @return [LocalPdfState]
  */
 @Composable
-public actual fun rememberPdfState(url: URL): PdfState {
-    return remember { PdfState(url) }
+public actual fun rememberLocalPdfState(url: URL): LocalPdfState {
+    return remember { LocalPdfState(url) }
 }
 
 /**
- * Remembers a [PdfState] for the given [file].
+ * Remembers a [LocalPdfState] for the given [file].
  *
  * @param file
- * @return [PdfState]
+ * @return [LocalPdfState]
  */
 @Composable
-public actual fun rememberPdfState(file: File): PdfState {
-    return remember { PdfState(file) }
+public actual fun rememberLocalPdfState(file: File): LocalPdfState {
+    return remember { LocalPdfState(file) }
 }

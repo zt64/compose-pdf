@@ -5,33 +5,45 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.ZoomIn
-import androidx.compose.material.icons.filled.ZoomOut
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import dev.zt64.compose.pdf.PdfColumn
+import androidx.compose.ui.unit.dp
+import dev.zt64.compose.pdf.component.PdfColumn
 import dev.zt64.compose.pdf.PdfState
+import dev.zt64.compose.pdf.RemotePdfState
+import dev.zt64.compose.pdf.rememberLocalPdfState
 import me.saket.telephoto.zoomable.rememberZoomableState
 import me.saket.telephoto.zoomable.zoomable
+import java.io.File
+import java.net.URL
 
 @Composable
 fun Application() {
     Theme {
+        val errorIcon = rememberVectorPainter(Icons.Default.Error)
+        val loadingIcon = rememberVectorPainter(Icons.Default.Refresh)
         var pdf: PdfState? by remember {
             mutableStateOf(null, referentialEqualityPolicy())
         }
+        var url by remember {
+            mutableStateOf("")
+        }
 
         if (pdf == null) {
-            Box(
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
                 modifier = Modifier
                     .fillMaxSize()
                     .background(MaterialTheme.colorScheme.background)
+                    .padding(16.dp)
             ) {
                 var showFilePicker by rememberSaveable { mutableStateOf(false) }
 
@@ -44,10 +56,31 @@ fun Application() {
                 )
 
                 Button(
-                    modifier = Modifier.align(Alignment.Center),
                     onClick = { showFilePicker = true }
                 ) {
                     Text("Select PDF file")
+                }
+
+                Spacer(
+                    modifier = Modifier.height(32.dp)
+                )
+
+                OutlinedTextField(
+                    value = url,
+                    onValueChange = {
+                        url = it
+                    },
+                    label = {
+                        Text("URL")
+                    }
+                )
+
+                Button(
+                    onClick = {
+                        pdf = RemotePdfState(url = URL(url), errorIcon, loadingIcon)
+                    }
+                ) {
+                    Text("Load from url")
                 }
             }
         } else {
@@ -102,7 +135,9 @@ private fun PdfScreen(
             val lazyListState = rememberLazyListState()
 
             PdfColumn(
-                modifier = Modifier.scale(scale),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .scale(scale),
                 state = pdf,
                 lazyListState = lazyListState,
             )

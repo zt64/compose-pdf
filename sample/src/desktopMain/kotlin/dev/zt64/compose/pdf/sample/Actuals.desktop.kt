@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.darkrockstudios.libraries.mpfilepicker.FilePicker
 import com.darkrockstudios.libraries.mpfilepicker.JvmFile
+import dev.zt64.compose.pdf.LocalPdfState
 import dev.zt64.compose.pdf.PdfState
 
 @Composable
@@ -37,7 +38,7 @@ actual fun PdfPicker(show: Boolean, onSelectFile: (PdfState) -> Unit, fileExtens
     ) {
         it as JvmFile? ?: return@FilePicker
 
-        onSelectFile(PdfState(it!!.platformFile))
+        onSelectFile(LocalPdfState(it!!.platformFile))
     }
 }
 
