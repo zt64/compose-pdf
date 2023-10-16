@@ -9,9 +9,6 @@ import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import dev.zt64.compose.pdf.icons.Error
-import dev.zt64.compose.pdf.icons.Icons
-import dev.zt64.compose.pdf.icons.Loading
 import dev.zt64.compose.pdf.util.downloadPdf
 import dev.zt64.compose.pdf.util.renderPage
 import kotlinx.coroutines.CoroutineScope
@@ -126,6 +123,6 @@ public actual fun rememberRemotePdfState(url: String, errorPainter: Painter, loa
 @Composable
 public fun rememberRemotePdfState(
     uri: Uri,
-    errorPainter: Painter = rememberVectorPainter(Icons.Error),
-    loadingPainter: Painter = rememberVectorPainter(Icons.Loading)
+    errorPainter: Painter = rememberVectorPainter(RemotePdfDefaults.BlankIcon),
+    loadingPainter: Painter = rememberVectorPainter(RemotePdfDefaults.BlankIcon)
 ): RemotePdfState = rememberRemotePdfState(URL(uri.toString()), errorPainter, loadingPainter)

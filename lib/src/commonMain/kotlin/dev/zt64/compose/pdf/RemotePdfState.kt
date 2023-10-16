@@ -3,10 +3,9 @@ package dev.zt64.compose.pdf
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import dev.zt64.compose.pdf.icons.Error
-import dev.zt64.compose.pdf.icons.Icons
-import dev.zt64.compose.pdf.icons.Loading
+import androidx.compose.ui.unit.dp
 import java.net.URL
 
 @Stable
@@ -39,6 +38,16 @@ public enum class LoadState {
     Success
 }
 
+public object RemotePdfDefaults {
+    public val BlankIcon: ImageVector = ImageVector.Builder(
+        name = "BLANK_ICON",
+        defaultWidth = 24.dp,
+        defaultHeight = 24.dp,
+        viewportWidth = 24F,
+        viewportHeight = 24F
+    ).build()
+}
+
 /**
  * Returns a [RemotePdfState] for the given [url]
  *
@@ -50,8 +59,8 @@ public enum class LoadState {
 @Composable
 public expect fun rememberRemotePdfState(
     url: URL,
-    errorPainter: Painter = rememberVectorPainter(Icons.Error),
-    loadingPainter: Painter = rememberVectorPainter(Icons.Loading)
+    errorPainter: Painter = rememberVectorPainter(RemotePdfDefaults.BlankIcon),
+    loadingPainter: Painter = rememberVectorPainter(RemotePdfDefaults.BlankIcon)
 ): RemotePdfState
 
 /**
@@ -65,6 +74,6 @@ public expect fun rememberRemotePdfState(
 @Composable
 public expect fun rememberRemotePdfState(
     url: String,
-    errorPainter: Painter = rememberVectorPainter(Icons.Error),
-    loadingPainter: Painter = rememberVectorPainter(Icons.Loading)
+    errorPainter: Painter = rememberVectorPainter(RemotePdfDefaults.BlankIcon),
+    loadingPainter: Painter = rememberVectorPainter(RemotePdfDefaults.BlankIcon)
 ): RemotePdfState
