@@ -40,10 +40,8 @@ internal object Downloader {
             throw IOException("Only absolute paths are supported")
 
         val iStream = conn.inputStream
-        dest.outputStream().run {
-            iStream.copyTo(this, 16384)
-            iStream.close()
-            close()
+        dest.outputStream().use { os ->
+            iStream.use { it.copyTo(os, 16384) }
         }
     }
 }
