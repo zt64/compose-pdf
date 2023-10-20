@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.painter.Painter
 @Stable
 public interface PdfState : AutoCloseable {
     /** Total number of pages in the PDF file. */
-    public var pageCount: Int
+    public val pageCount: Int
 
     /**
      * @param index the page number to render

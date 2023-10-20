@@ -19,7 +19,7 @@ import java.net.URL
 public actual class LocalPdfState(private val pfd: ParcelFileDescriptor) : PdfState {
     private val renderer = PdfRenderer(pfd)
 
-    public actual override var pageCount: Int = renderer.pageCount
+    public actual override val pageCount: Int = renderer.pageCount
 
     public actual constructor(file: File) : this(
         ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)

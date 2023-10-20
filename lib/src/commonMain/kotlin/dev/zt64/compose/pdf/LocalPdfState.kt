@@ -8,7 +8,7 @@ import java.net.URL
 
 @Stable
 public expect class LocalPdfState public constructor(file: File) : PdfState {
-    public override var pageCount: Int
+    public override val pageCount: Int
 
     public override fun renderPage(index: Int): Painter
 }

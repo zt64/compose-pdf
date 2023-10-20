@@ -15,11 +15,13 @@ public expect class RemotePdfState public constructor(
     loadingPainter: Painter
 ) : PdfState {
     override var pageCount: Int
+        private set
 
     /**
      * Current loading state for this Pdf
      */
     public var loadState: LoadState
+        private set
 
     override fun renderPage(index: Int): Painter
 

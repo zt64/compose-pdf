@@ -21,11 +21,12 @@ public actual class RemotePdfState actual constructor(
     public var loadingPainter: Painter
 ) : PdfState {
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
-
     private var document: Document? = null
 
-    actual override var pageCount: Int by mutableIntStateOf(1)
+    public actual override var pageCount: Int by mutableIntStateOf(1)
+        private set
     public actual var loadState: LoadState by mutableStateOf(LoadState.Loading)
+        private set
 
     init {
         loadPdf()

@@ -19,7 +19,7 @@ internal const val ROTATION = 0f
 
 @Stable
 public actual class LocalPdfState(private val document: Document) : PdfState {
-    public actual override var pageCount: Int = document.numberOfPages
+    public actual override val pageCount: Int = document.numberOfPages
 
     public constructor(inputStream: InputStream) : this(
         document = Document().apply {
