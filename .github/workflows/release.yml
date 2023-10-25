@@ -1,0 +1,76 @@
+name: Publish release
+
+concurrency:
+    group: "release"
+    cancel-in-progress: true
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - 'release'
+
+# Required actions secrets:
+# SONATYPE_USERNAME: sonatype staging repo user token username
+# SONATYPE_PASSWORD: sonatype staging repo user token password
+# GPG_KEY_ID: last 8 chars of master/(singing) subkey fingerprint (gpg --list-keys --keyid-format short)
+# GPG_SIGNING_KEY: an armored gpg key: (gpg --armor --export-secret-key <MASTER_ID>) OR (gpg --armor --export-secret-subkey <SHORT_ID>!)
+# GPG_KEY_PASSWORD: password for key-block
+
+jobs:
+    build:
+        timeout-minutes: 60
+        runs-on: macos-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@master
+              with:
+                  ref: release
+                  path: "src"
+
+            - name: Setup JDK 17
+              uses: actions/setup-java@v2
+              with:
+                  java-version: 17
+                  distribution: zulu
+                  cache: gradle
+
+            - name: Setup Android SDK
+              uses: android-actions/setup-android@v2.0.10
+
+            - name: Test version
+              id: version
+              run: |
+                  cd $GITHUB_WORKSPACE/src
+                  version=$(cat build.gradle.kts | grep -E 'version = "' | cut -d \" -f 2)
+                  if git show-ref --tags --quiet --verify -- "refs/tags/$version" >/dev/null; then
+                    echo "Git tag $version already exists, failing to publish";
+                    exit 1
+                  else
+                    echo "::set-output name=release_tag::$version"
+                  fi
+
+            - name: Build and Maven publish
+              env:
+                  SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+                  SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+                  SIGNING_KEY: ${{ secrets.GPG_SIGNING_KEY }}
+                  SIGNING_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+                  SIGNING_PASSWORD: ${{ secrets.GPG_KEY_PASSWORD }}
+              run: |
+                  cd $GITHUB_WORKSPACE/src
+                  chmod +x gradlew
+                  ./gradlew publishToMavenLocal publish --no-daemon --stacktrace
+
+            - name: Prepare Release
+              run: |
+                  cd ~/.m2/repository
+                  zip -r $GITHUB_WORKSPACE/artifacts.zip *
+
+            - name: Create Release
+              uses: softprops/action-gh-release@v1
+              with:
+                  tag_name: ${{ steps.version.outputs.release_tag }}
+                  generate_release_notes: true
+                  fail_on_unmatched_files: true
+                  files: artifacts.zip

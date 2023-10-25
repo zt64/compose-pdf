@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -7,12 +8,9 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.binary.compatibility)
 
-    `maven-publish`
+    id("maven-publish")
+    id("signing")
 }
-
-group = "dev.zt64.compose.pdf"
-version = "1.0.0"
-description = "Compose multiplatform PDF implementation"
 
 kotlin {
     jvmToolchain(17)
@@ -93,6 +91,7 @@ android {
 
     defaultConfig {
         minSdk = 21
+        archivesName
     }
 
     compileOptions {
@@ -101,15 +100,75 @@ android {
     }
 }
 
-publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/zt64/compose-pdf")
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
+
+// -- Publishing --
+
+val sonatypeUsername: String? = System.getenv("SONATYPE_USERNAME")
+val sonatypePassword: String? = System.getenv("SONATYPE_PASSWORD")
+
+afterEvaluate {
+    publishing {
+        repositories {
+            if(sonatypeUsername == null || sonatypePassword == null) {
+                mavenLocal()
+            } else {
+                maven {
+                    credentials {
+                        username = sonatypeUsername
+                        password = sonatypePassword
+                    }
+                    setUrl("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+                }
             }
         }
+
+        publications.withType<MavenPublication> {
+            artifactId = artifactId.replaceFirst("lib", "compose-pdf")
+            pom {
+                name.set("compose-pdf")
+                description.set("Compose Multiplatform library that displays PDF files")
+                url.set("https://github.com/zt64/compose-pdf")
+                licenses {
+                    license {
+                        name.set("MIT License")
+                        url.set("https://opensource.org/license/mit/")
+                    }
+                }
+                developers {
+                    developer {
+                        id.set("zt64")
+                        name.set("Zt")
+                        url.set("https://zt64.dev")
+                    }
+                    developer {
+                        id.set("wingio")
+                        name.set("Wing")
+                        url.set("https://wingio.xyz")
+                    }
+                }
+                scm {
+                    url.set("https://github.com/zt64/compose-pdf")
+                    connection.set("scm:git:github.com/zt64/compose-pdf.git")
+                    developerConnection.set("scm:git:ssh://github.com/zt64/compose-pdf.git")
+                }
+            }
+        }
+    }
+}
+
+if (sonatypeUsername != null && sonatypePassword != null) {
+    signing {
+        useInMemoryPgpKeys(
+            System.getenv("SIGNING_KEY_ID"),
+            System.getenv("SIGNING_KEY"),
+            System.getenv("SIGNING_PASSWORD"),
+        )
+        sign(publishing.publications)
+    }
+
+    val dependsOnTasks = mutableListOf<String>()
+    tasks.withType<AbstractPublishToMaven>().configureEach {
+        dependsOnTasks.add(name.replace("publish", "sign").replaceAfter("Publication", ""))
+        dependsOn(dependsOnTasks)
     }
 }
