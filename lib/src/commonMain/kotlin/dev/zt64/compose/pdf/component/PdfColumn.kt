@@ -1,7 +1,5 @@
-package dev.zt64.compose.pdf
+package dev.zt64.compose.pdf.component
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.gestures.ScrollableDefaults
 import androidx.compose.foundation.layout.Arrangement
@@ -12,13 +10,19 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import dev.zt64.compose.pdf.PdfState
 
 @Composable
 public fun PdfColumn(
     state: PdfState,
     modifier: Modifier = Modifier,
+    page: @Composable (index: Int) -> Unit = {
+        PdfPage(
+            state = state,
+            index = it
+        )
+    },
     lazyListState: LazyListState = rememberLazyListState(),
     contentPadding: PaddingValues = PaddingValues(0.dp),
     reverseLayout: Boolean = false,
@@ -42,25 +46,10 @@ public fun PdfColumn(
     ) {
         items(
             count = state.pageCount,
-            key = { index -> "$index"}
+            key = { index -> "$index" }
         ) { i ->
-            PdfPage(
-                state = state,
-                index = i,
-            )
+            page(i)
         }
     }
 }
 
-@Composable
-public fun PdfPage(
-    state: PdfState,
-    index: Int,
-    modifier: Modifier = Modifier
-) {
-    Image(
-        modifier = modifier.background(Color.White),
-        painter = state.renderPage(index),
-        contentDescription = null
-    )
-}

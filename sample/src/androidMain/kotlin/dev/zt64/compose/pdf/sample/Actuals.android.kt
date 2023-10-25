@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.darkrockstudios.libraries.mpfilepicker.AndroidFile
 import com.darkrockstudios.libraries.mpfilepicker.FilePicker
+import dev.zt64.compose.pdf.LocalPdfState
 import dev.zt64.compose.pdf.PdfState
 
 @Composable
@@ -22,7 +23,7 @@ actual fun PdfPicker(
     ) {
         it as AndroidFile? ?: return@FilePicker
 
-        onSelectFile(PdfState(context.contentResolver.openFileDescriptor(it!!.platformFile, "r")!!))
+        onSelectFile(LocalPdfState(context.contentResolver.openFileDescriptor(it!!.platformFile, "r")!!))
     }
 }
 
