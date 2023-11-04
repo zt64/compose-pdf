@@ -1,4 +1,4 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
+import com.vanniktech.maven.publish.SonatypeHost
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -7,10 +7,11 @@ plugins {
     alias(libs.plugins.compose)
     alias(libs.plugins.android.library)
     alias(libs.plugins.binary.compatibility)
-
-    id("maven-publish")
-    id("signing")
+    alias(libs.plugins.publish)
 }
+
+version = "1.0.0"
+group = "dev.zt64"
 
 kotlin {
     jvmToolchain(17)
@@ -66,21 +67,21 @@ kotlin {
     }
 }
 
-tasks.withType<KotlinCompile>().configureEach {
+tasks.withType<KotlinCompile> {
     kotlinOptions {
         // if (project.findProperty("composeCompilerReports") == "true") {
-            freeCompilerArgs += arrayOf(
-                "-P",
-                "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
-                        project.layout.buildDirectory.get().asFile.absolutePath + "/compose_compiler"
-            )
+        freeCompilerArgs += arrayOf(
+            "-P",
+            "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
+                    project.layout.buildDirectory.get().asFile.absolutePath + "/compose_compiler"
+        )
         // }
         // if (project.findProperty("composeCompilerMetrics") == "true") {
-            freeCompilerArgs += arrayOf(
-                "-P",
-                "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
-                        project.layout.buildDirectory.get().asFile.absolutePath + "/compose_compiler"
-            )
+        freeCompilerArgs += arrayOf(
+            "-P",
+            "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
+                    project.layout.buildDirectory.get().asFile.absolutePath + "/compose_compiler"
+        )
         // }
     }
 }
@@ -91,7 +92,6 @@ android {
 
     defaultConfig {
         minSdk = 21
-        archivesName
     }
 
     compileOptions {
@@ -100,75 +100,41 @@ android {
     }
 }
 
+@Suppress("UnstableApiUsage")
+mavenPublishing {
+    publishToMavenCentral(SonatypeHost.DEFAULT, automaticRelease = true)
 
-// -- Publishing --
+    signAllPublications()
 
-val sonatypeUsername: String? = System.getenv("SONATYPE_USERNAME")
-val sonatypePassword: String? = System.getenv("SONATYPE_PASSWORD")
+    coordinates("dev.zt64", "compose-pdf", version.toString())
 
-afterEvaluate {
-    publishing {
-        repositories {
-            if(sonatypeUsername == null || sonatypePassword == null) {
-                mavenLocal()
-            } else {
-                maven {
-                    credentials {
-                        username = sonatypeUsername
-                        password = sonatypePassword
-                    }
-                    setUrl("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-                }
+    pom {
+        name = "compose-pdf"
+        description = "Compose Multiplatform library that displays PDF files"
+        inceptionYear = "2023"
+        url = "https://github.com/zt64/compose-pdf"
+        licenses {
+            license {
+                name = "MIT License"
+                url = "https://opensource.org/license/mit/"
             }
         }
-
-        publications.withType<MavenPublication> {
-            artifactId = artifactId.replaceFirst("lib", "compose-pdf")
-            pom {
-                name.set("compose-pdf")
-                description.set("Compose Multiplatform library that displays PDF files")
-                url.set("https://github.com/zt64/compose-pdf")
-                licenses {
-                    license {
-                        name.set("MIT License")
-                        url.set("https://opensource.org/license/mit/")
-                    }
-                }
-                developers {
-                    developer {
-                        id.set("zt64")
-                        name.set("Zt")
-                        url.set("https://zt64.dev")
-                    }
-                    developer {
-                        id.set("wingio")
-                        name.set("Wing")
-                        url.set("https://wingio.xyz")
-                    }
-                }
-                scm {
-                    url.set("https://github.com/zt64/compose-pdf")
-                    connection.set("scm:git:github.com/zt64/compose-pdf.git")
-                    developerConnection.set("scm:git:ssh://github.com/zt64/compose-pdf.git")
-                }
+        developers {
+            developer {
+                id = "zt64"
+                name = "Zt"
+                url = "https://zt64.dev"
+            }
+            developer {
+                id = "wingio"
+                name = "Wing"
+                url = "https://wingio.xyz"
             }
         }
-    }
-}
-
-if (sonatypeUsername != null && sonatypePassword != null) {
-    signing {
-        useInMemoryPgpKeys(
-            System.getenv("SIGNING_KEY_ID"),
-            System.getenv("SIGNING_KEY"),
-            System.getenv("SIGNING_PASSWORD"),
-        )
-        sign(publishing.publications)
-    }
-
-    val dependsOnTasks = mutableListOf<String>()
-    tasks.withType<AbstractPublishToMaven>().configureEach {
-        dependsOnTasks.add(name.replace("publish", "sign").replaceAfter("Publication", ""))
-        dependsOn(dependsOnTasks)
+        scm {
+            url = "https://github.com/zt64/compose-pdf"
+            connection = "scm:git:github.com/zt64/compose-pdf.git"
+            developerConnection = "scm:git:ssh://github.com/zt64/compose-pdf.git"
+        }
     }
 }

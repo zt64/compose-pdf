@@ -2,6 +2,7 @@
 kotlin = "1.9.10"
 compose = "1.5.3"
 android = "8.1.2"
+publish = "0.25.3"
 androidx-activity = "1.8.0"
 androidx-appcompat = "1.6.1"
 binary-compatibility = "0.13.2"
@@ -23,3 +24,4 @@ binary-compatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-valida
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 android-library = { id = "com.android.library", version.ref = "android" }
 android-application = { id = "com.android.application", version.ref = "android" }
+publish = { id = "com.vanniktech.maven.publish", version.ref = "publish" }
