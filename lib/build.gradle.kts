@@ -102,7 +102,7 @@ android {
 
 @Suppress("UnstableApiUsage")
 mavenPublishing {
-    publishToMavenCentral(SonatypeHost.DEFAULT, automaticRelease = true)
+    publishToMavenCentral(SonatypeHost.S01, automaticRelease = true)
 
     signAllPublications()
 
