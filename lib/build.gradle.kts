@@ -1,3 +1,4 @@
+import com.vanniktech.maven.publish.SonatypeHost
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -6,13 +7,11 @@ plugins {
     alias(libs.plugins.compose)
     alias(libs.plugins.android.library)
     alias(libs.plugins.binary.compatibility)
-
-    `maven-publish`
+    alias(libs.plugins.publish)
 }
 
-group = "dev.zt64.compose.pdf"
 version = "1.0.0"
-description = "Compose multiplatform PDF implementation"
+group = "dev.zt64"
 
 kotlin {
     jvmToolchain(17)
@@ -68,21 +67,21 @@ kotlin {
     }
 }
 
-tasks.withType<KotlinCompile>().configureEach {
+tasks.withType<KotlinCompile> {
     kotlinOptions {
         // if (project.findProperty("composeCompilerReports") == "true") {
-            freeCompilerArgs += arrayOf(
-                "-P",
-                "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
-                        project.layout.buildDirectory.get().asFile.absolutePath + "/compose_compiler"
-            )
+        freeCompilerArgs += arrayOf(
+            "-P",
+            "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
+                    project.layout.buildDirectory.get().asFile.absolutePath + "/compose_compiler"
+        )
         // }
         // if (project.findProperty("composeCompilerMetrics") == "true") {
-            freeCompilerArgs += arrayOf(
-                "-P",
-                "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
-                        project.layout.buildDirectory.get().asFile.absolutePath + "/compose_compiler"
-            )
+        freeCompilerArgs += arrayOf(
+            "-P",
+            "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
+                    project.layout.buildDirectory.get().asFile.absolutePath + "/compose_compiler"
+        )
         // }
     }
 }
@@ -101,15 +100,41 @@ android {
     }
 }
 
-publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/zt64/compose-pdf")
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
+@Suppress("UnstableApiUsage")
+mavenPublishing {
+    publishToMavenCentral(SonatypeHost.DEFAULT, automaticRelease = true)
+
+    signAllPublications()
+
+    coordinates("dev.zt64", "compose-pdf", version.toString())
+
+    pom {
+        name = "compose-pdf"
+        description = "Compose Multiplatform library that displays PDF files"
+        inceptionYear = "2023"
+        url = "https://github.com/zt64/compose-pdf"
+        licenses {
+            license {
+                name = "MIT License"
+                url = "https://opensource.org/license/mit/"
             }
+        }
+        developers {
+            developer {
+                id = "zt64"
+                name = "Zt"
+                url = "https://zt64.dev"
+            }
+            developer {
+                id = "wingio"
+                name = "Wing"
+                url = "https://wingio.xyz"
+            }
+        }
+        scm {
+            url = "https://github.com/zt64/compose-pdf"
+            connection = "scm:git:github.com/zt64/compose-pdf.git"
+            developerConnection = "scm:git:ssh://github.com/zt64/compose-pdf.git"
         }
     }
 }
