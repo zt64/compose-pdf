@@ -10,6 +10,9 @@ on:
     branches:
       - 'release'
 
+permissions:
+  contents: write
+
 jobs:
   build:
     timeout-minutes: 60
