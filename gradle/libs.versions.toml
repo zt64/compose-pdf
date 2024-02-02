@@ -1,5 +1,5 @@
 [versions]
-kotlin = "1.9.10"
+kotlin = "1.9.22"
 compose = "1.5.12"
 android = "8.2.2"
 publish = "0.27.0"
