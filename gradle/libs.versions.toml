@@ -2,7 +2,7 @@
 kotlin = "1.9.22"
 compose = "1.5.12"
 android = "8.3.0"
-publish = "0.27.0"
+publish = "0.28.0"
 androidx-activity = "1.8.2"
 androidx-appcompat = "1.6.1"
 binary-compatibility = "0.14.0"
