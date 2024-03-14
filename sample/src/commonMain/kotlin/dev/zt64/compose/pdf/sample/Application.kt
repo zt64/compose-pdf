@@ -79,13 +79,14 @@ fun Application() {
                         autoCorrect = false,
                         keyboardType = KeyboardType.Uri,
                         imeAction = ImeAction.Done
-                    ),
+                    )
                 )
 
                 val isValidUrl by remember {
                     derivedStateOf {
                         try {
-                            url.isNotEmpty() && URL(url).protocol.let { it == "http" || it == "https" }
+                            url.isNotEmpty() &&
+                                URL(url).protocol.let { it == "http" || it == "https" }
                         } catch (e: MalformedURLException) {
                             false
                         }
@@ -157,7 +158,7 @@ private fun PdfScreen(
                     .fillMaxSize()
                     .scale(scale),
                 state = pdf,
-                lazyListState = lazyListState,
+                lazyListState = lazyListState
             )
 
             val currentPage by remember {

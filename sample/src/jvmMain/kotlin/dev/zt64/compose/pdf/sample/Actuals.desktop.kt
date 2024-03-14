@@ -7,10 +7,14 @@ import dev.zt64.compose.pdf.LocalPdfState
 import dev.zt64.compose.pdf.PdfState
 
 @Composable
-actual fun PdfPicker(show: Boolean, onSelectFile: (PdfState) -> Unit, fileExtensions: List<String>) {
+actual fun PdfPicker(
+    show: Boolean,
+    onSelectFile: (PdfState) -> Unit,
+    fileExtensions: List<String>
+) {
     FilePicker(
         show = show,
-        fileExtensions = fileExtensions,
+        fileExtensions = fileExtensions
     ) {
         it as JvmFile? ?: return@FilePicker
 
