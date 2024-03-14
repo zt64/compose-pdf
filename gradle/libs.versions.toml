@@ -1,14 +1,16 @@
 [versions]
 kotlin = "1.9.22"
-compose = "1.5.12"
-android = "8.3.0"
-publish = "0.28.0"
+compose = "1.6.0"
+android = "8.2.1"
 androidx-activity = "1.8.2"
 androidx-appcompat = "1.6.1"
-binary-compatibility = "0.14.0"
 icepdf = "7.2.0"
 mpfilepicker = "3.1.0"
 zoomable = "0.8.0"
+
+compatibility = "0.14.0"
+publish = "0.28.0"
+ktlint = "12.1.0"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
@@ -20,8 +22,10 @@ zoomable = { module = "me.saket.telephoto:zoomable", version.ref = "zoomable" }
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-native-cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
-binary-compatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binary-compatibility" }
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 android-library = { id = "com.android.library", version.ref = "android" }
 android-application = { id = "com.android.application", version.ref = "android" }
+
+compatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "compatibility" }
 publish = { id = "com.vanniktech.maven.publish", version.ref = "publish" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }

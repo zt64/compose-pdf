@@ -1,4 +1,5 @@
 import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -6,17 +7,14 @@ plugins {
     // alias(libs.plugins.kotlin.native.cocoapods)
     alias(libs.plugins.compose)
     alias(libs.plugins.android.library)
-    alias(libs.plugins.binary.compatibility)
     alias(libs.plugins.publish)
+    alias(libs.plugins.compatibility)
 }
-
-version = "1.0.0"
-group = "dev.zt64"
 
 kotlin {
     jvmToolchain(17)
 
-    jvm("desktop")
+    jvm()
     androidTarget {
         publishAllLibraryVariants()
     }
@@ -35,14 +33,14 @@ kotlin {
     // }
 
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 implementation(compose.foundation)
                 implementation(compose.runtime)
             }
         }
 
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(kotlin("test"))
                 implementation(compose.desktop.uiTestJUnit4)
@@ -50,20 +48,23 @@ kotlin {
             }
         }
 
-        val desktopMain by getting {
+        jvmMain {
             dependencies {
                 implementation(compose.desktop.common)
                 implementation(libs.icepdf.core)
             }
         }
 
-        // val iosMain by getting
-
         all {
             languageSettings {
                 enableLanguageFeature("ContextReceivers")
             }
         }
+    }
+
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
     }
 }
 
@@ -73,14 +74,14 @@ tasks.withType<KotlinCompile> {
         freeCompilerArgs += arrayOf(
             "-P",
             "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
-                    project.layout.buildDirectory.get().asFile.absolutePath + "/compose_compiler"
+                project.layout.buildDirectory.get().asFile.absolutePath + "/compose_compiler"
         )
         // }
         // if (project.findProperty("composeCompilerMetrics") == "true") {
         freeCompilerArgs += arrayOf(
             "-P",
             "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
-                    project.layout.buildDirectory.get().asFile.absolutePath + "/compose_compiler"
+                project.layout.buildDirectory.get().asFile.absolutePath + "/compose_compiler"
         )
         // }
     }
@@ -100,9 +101,8 @@ android {
     }
 }
 
-@Suppress("UnstableApiUsage")
 mavenPublishing {
-    publishToMavenCentral(SonatypeHost.S01, automaticRelease = true)
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
 
     signAllPublications()
 

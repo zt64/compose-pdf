@@ -10,7 +10,7 @@ plugins {
 kotlin {
     jvmToolchain(17)
 
-    jvm("desktop")
+    jvm()
     androidTarget()
     // ios()
 
@@ -28,23 +28,25 @@ kotlin {
         commonMain {
             dependencies {
                 implementation(project(":lib"))
+
                 implementation(compose.foundation)
                 implementation(compose.runtime)
                 implementation(compose.material3)
                 implementation(compose.materialIconsExtended)
+
                 implementation(libs.mpfilepicker)
                 implementation(libs.zoomable)
             }
         }
 
-        val androidMain by getting {
+        androidMain {
             dependencies {
                 implementation(libs.androidx.activity.compose)
                 implementation(libs.androidx.appcompat)
             }
         }
 
-        val desktopMain by getting {
+        jvmMain {
             dependencies {
                 implementation(compose.desktop.currentOs)
             }
@@ -76,11 +78,12 @@ android {
 compose.desktop {
     application {
         mainClass = "dev.zt64.compose.pdf.sample.MainKt"
+
         nativeDistributions {
             modules("java.instrument", "java.net.http")
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            targetFormats(TargetFormat.Deb)
+
             packageName = "ComposePdf"
-            packageVersion = "1.0.0"
         }
     }
 }
