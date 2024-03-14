@@ -41,11 +41,16 @@ public actual class LocalPdfState(private val document: Document) : PdfState {
 
     public actual override fun renderPage(index: Int): Painter {
         val image = document.getPageImage(
-            /* pageNumber = */ index,
-            /* renderHintType = */ GraphicsRenderingHints.SCREEN,
-            /* pageBoundary = */ Page.BOUNDARY_CROPBOX,
-            /* userRotation = */ ROTATION,
-            /* userZoom = */ SCALE
+            // pageNumber =
+            index,
+            // renderHintType =
+            GraphicsRenderingHints.SCREEN,
+            // pageBoundary =
+            Page.BOUNDARY_CROPBOX,
+            // userRotation =
+            ROTATION,
+            // userZoom =
+            SCALE
         ) as BufferedImage
 
         val bmp = image.toComposeImageBitmap()

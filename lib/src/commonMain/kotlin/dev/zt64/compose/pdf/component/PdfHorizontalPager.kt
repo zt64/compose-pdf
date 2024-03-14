@@ -34,8 +34,9 @@ public fun PdfHorizontalPager(
     userScrollEnabled: Boolean = true,
     reverseLayout: Boolean = false,
     pageNestedScrollConnection: NestedScrollConnection = PagerDefaults.pageNestedScrollConnection(
-        Orientation.Horizontal
-    ),
+        state = pagerState,
+        orientation = Orientation.Horizontal
+    )
 ) {
     HorizontalPager(
         state = pagerState,
@@ -48,7 +49,7 @@ public fun PdfHorizontalPager(
         flingBehavior = flingBehavior,
         userScrollEnabled = userScrollEnabled,
         reverseLayout = reverseLayout,
-        pageNestedScrollConnection = pageNestedScrollConnection,
+        pageNestedScrollConnection = pageNestedScrollConnection
     ) { i ->
         page(i)
     }

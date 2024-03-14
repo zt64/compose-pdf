@@ -6,7 +6,8 @@ import org.junit.Rule
 import org.junit.Test
 import java.net.URL
 
-private const val PDF_URL = "https://opensource.adobe.com/dc-acrobat-sdk-docs/pdfstandards/PDF32000_2008.pdf"
+private const val PDF_URL =
+    "https://opensource.adobe.com/dc-acrobat-sdk-docs/pdfstandards/PDF32000_2008.pdf"
 
 class PdfTest {
     @get:Rule

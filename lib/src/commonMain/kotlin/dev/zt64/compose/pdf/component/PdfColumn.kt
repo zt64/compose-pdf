@@ -32,7 +32,7 @@ public fun PdfColumn(
     ),
     horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     flingBehavior: FlingBehavior = ScrollableDefaults.flingBehavior(),
-    userScrollEnabled: Boolean = true,
+    userScrollEnabled: Boolean = true
 ) {
     LazyColumn(
         modifier = modifier,
@@ -42,7 +42,7 @@ public fun PdfColumn(
         verticalArrangement = verticalArrangement,
         horizontalAlignment = horizontalAlignment,
         flingBehavior = flingBehavior,
-        userScrollEnabled = userScrollEnabled,
+        userScrollEnabled = userScrollEnabled
     ) {
         items(
             count = state.pageCount,
@@ -52,4 +52,3 @@ public fun PdfColumn(
         }
     }
 }
-

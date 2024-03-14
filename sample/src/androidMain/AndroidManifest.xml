@@ -4,7 +4,7 @@
     <application
         android:supportsRtl="true"
         android:label="Compose PDF Sample"
-        android:theme="@style/Theme.AppCompat.NoActionBar"
+        android:theme="@style/Theme.AppCompat"
         tools:ignore="MissingApplicationIcon">
         <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>

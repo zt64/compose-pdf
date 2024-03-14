@@ -35,14 +35,21 @@ public actual class RemotePdfState actual constructor(
     actual override fun renderPage(index: Int): Painter {
         return when (loadState) {
             LoadState.Loading -> loadingPainter
+
             LoadState.Error -> errorPainter
+
             LoadState.Success -> {
                 val image = document?.getPageImage(
-                    /* pageNumber = */ index,
-                    /* renderHintType = */ GraphicsRenderingHints.SCREEN,
-                    /* pageBoundary = */ Page.BOUNDARY_CROPBOX,
-                    /* userRotation = */ ROTATION,
-                    /* userZoom = */ SCALE
+                    // pageNumber =
+                    index,
+                    // renderHintType =
+                    GraphicsRenderingHints.SCREEN,
+                    // pageBoundary =
+                    Page.BOUNDARY_CROPBOX,
+                    // userRotation =
+                    ROTATION,
+                    // userZoom =
+                    SCALE
                 ) as BufferedImage? ?: return errorPainter
 
                 val bmp = image.toComposeImageBitmap()
@@ -85,8 +92,14 @@ public actual class RemotePdfState actual constructor(
  * @return [RemotePdfState]
  */
 @Composable
-public actual fun rememberRemotePdfState(url: URL, errorPainter: Painter, loadingPainter: Painter): RemotePdfState {
-    return remember(url, errorPainter, loadingPainter) { RemotePdfState(url, errorPainter, loadingPainter) }
+public actual fun rememberRemotePdfState(
+    url: URL,
+    errorPainter: Painter,
+    loadingPainter: Painter
+): RemotePdfState {
+    return remember(url, errorPainter, loadingPainter) {
+        RemotePdfState(url, errorPainter, loadingPainter)
+    }
 }
 
 /**
@@ -98,6 +111,10 @@ public actual fun rememberRemotePdfState(url: URL, errorPainter: Painter, loadin
  * @return [RemotePdfState]
  */
 @Composable
-public actual fun rememberRemotePdfState(url: String, errorPainter: Painter, loadingPainter: Painter): RemotePdfState {
+public actual fun rememberRemotePdfState(
+    url: String,
+    errorPainter: Painter,
+    loadingPainter: Painter
+): RemotePdfState {
     return rememberRemotePdfState(URL(url), errorPainter, loadingPainter)
 }

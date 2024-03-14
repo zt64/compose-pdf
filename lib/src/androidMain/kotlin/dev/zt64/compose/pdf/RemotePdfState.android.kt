@@ -87,7 +87,11 @@ public actual class RemotePdfState actual constructor(
  * @return [RemotePdfState]
  */
 @Composable
-public actual fun rememberRemotePdfState(url: URL, errorPainter: Painter, loadingPainter: Painter): RemotePdfState {
+public actual fun rememberRemotePdfState(
+    url: URL,
+    errorPainter: Painter,
+    loadingPainter: Painter
+): RemotePdfState {
     val state = rememberSaveable(url, errorPainter, loadingPainter, saver = RemotePdfState.Saver) {
         RemotePdfState(url, errorPainter, loadingPainter)
     }
@@ -110,8 +114,11 @@ public actual fun rememberRemotePdfState(url: URL, errorPainter: Painter, loadin
  * @return [RemotePdfState]
  */
 @Composable
-public actual fun rememberRemotePdfState(url: String, errorPainter: Painter, loadingPainter: Painter): RemotePdfState =
-    rememberRemotePdfState(URL(url), errorPainter, loadingPainter)
+public actual fun rememberRemotePdfState(
+    url: String,
+    errorPainter: Painter,
+    loadingPainter: Painter
+): RemotePdfState = rememberRemotePdfState(URL(url), errorPainter, loadingPainter)
 
 /**
  * Returns a [RemotePdfState] for the given [uri]

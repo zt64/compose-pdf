@@ -34,7 +34,8 @@ public fun PdfVerticalPager(
     userScrollEnabled: Boolean = true,
     reverseLayout: Boolean = false,
     pageNestedScrollConnection: NestedScrollConnection = PagerDefaults.pageNestedScrollConnection(
-        Orientation.Vertical
+        state = pagerState,
+        orientation = Orientation.Vertical
     )
 ) {
     VerticalPager(
@@ -48,7 +49,7 @@ public fun PdfVerticalPager(
         flingBehavior = flingBehavior,
         userScrollEnabled = userScrollEnabled,
         reverseLayout = reverseLayout,
-        pageNestedScrollConnection = pageNestedScrollConnection,
+        pageNestedScrollConnection = pageNestedScrollConnection
     ) { i ->
         page(i)
     }

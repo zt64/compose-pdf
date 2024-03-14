@@ -41,13 +41,14 @@ public enum class LoadState {
 }
 
 public object RemotePdfDefaults {
-    public val BlankIcon: ImageVector = ImageVector.Builder(
-        name = "BLANK_ICON",
-        defaultWidth = 24.dp,
-        defaultHeight = 24.dp,
-        viewportWidth = 24F,
-        viewportHeight = 24F
-    ).build()
+    public val BlankIcon: ImageVector = ImageVector
+        .Builder(
+            name = "BLANK_ICON",
+            defaultWidth = 24.dp,
+            defaultHeight = 24.dp,
+            viewportWidth = 24F,
+            viewportHeight = 24F
+        ).build()
 }
 
 /**

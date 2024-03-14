@@ -7,12 +7,7 @@ import androidx.compose.runtime.Composable
 @Composable
 fun Theme(content: @Composable () -> Unit) {
     MaterialTheme(
-        colorScheme = darkColorScheme(), // easier to see the PDF on dark theme
-    ) {
-        ProvideScrollbarStyle(content)
-    }
+        colorScheme = darkColorScheme(), // easier to see the PDF on dark theme,
+        content = content
+    )
 }
-
-// Workaround for scrollbar not being available on android
-@Composable
-expect fun ProvideScrollbarStyle(content: @Composable () -> Unit)

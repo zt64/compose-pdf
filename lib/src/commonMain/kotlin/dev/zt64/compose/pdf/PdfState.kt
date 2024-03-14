@@ -15,4 +15,3 @@ public interface PdfState : AutoCloseable {
      */
     public fun renderPage(index: Int): Painter
 }
-

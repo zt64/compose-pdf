@@ -26,7 +26,13 @@ public fun PdfPage(
         Image(
             painter = state.renderPage(index),
             contentDescription = null,
-            colorFilter = if (loadingIconTint == Color.Unspecified) null else ColorFilter.tint(loadingIconTint),
+            colorFilter = if (loadingIconTint ==
+                Color.Unspecified
+            ) {
+                null
+            } else {
+                ColorFilter.tint(loadingIconTint)
+            },
             modifier = Modifier.size(iconSize)
         )
     },
@@ -34,7 +40,13 @@ public fun PdfPage(
         Image(
             painter = state.renderPage(index),
             contentDescription = null,
-            colorFilter = if (errorIconTint == Color.Unspecified) null else ColorFilter.tint(errorIconTint),
+            colorFilter = if (errorIconTint ==
+                Color.Unspecified
+            ) {
+                null
+            } else {
+                ColorFilter.tint(errorIconTint)
+            },
             modifier = Modifier.size(iconSize)
         )
     },
@@ -51,6 +63,7 @@ public fun PdfPage(
         )
 
         LoadState.Loading -> loadingIndicator()
+
         LoadState.Error -> errorIndicator()
     }
 }

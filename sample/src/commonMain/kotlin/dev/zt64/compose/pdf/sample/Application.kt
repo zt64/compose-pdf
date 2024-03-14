@@ -2,8 +2,8 @@ package dev.zt64.compose.pdf.sample
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -14,14 +14,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import dev.zt64.compose.pdf.component.PdfColumn
 import dev.zt64.compose.pdf.PdfState
 import dev.zt64.compose.pdf.RemotePdfState
-import dev.zt64.compose.pdf.rememberLocalPdfState
+import dev.zt64.compose.pdf.component.PdfColumn
 import me.saket.telephoto.zoomable.rememberZoomableState
 import me.saket.telephoto.zoomable.zoomable
-import java.io.File
+import java.net.MalformedURLException
 import java.net.URL
 
 @Composable
@@ -32,7 +33,7 @@ fun Application() {
         var pdf: PdfState? by remember {
             mutableStateOf(null, referentialEqualityPolicy())
         }
-        var url by remember {
+        var url by rememberSaveable {
             mutableStateOf("")
         }
 
@@ -67,15 +68,32 @@ fun Application() {
 
                 OutlinedTextField(
                     value = url,
-                    onValueChange = {
-                        url = it
+                    onValueChange = { value ->
+                        url = value.filterNot { it.isWhitespace() }
                     },
                     label = {
                         Text("URL")
-                    }
+                    },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(
+                        autoCorrect = false,
+                        keyboardType = KeyboardType.Uri,
+                        imeAction = ImeAction.Done
+                    ),
                 )
 
+                val isValidUrl by remember {
+                    derivedStateOf {
+                        try {
+                            url.isNotEmpty() && URL(url).protocol.let { it == "http" || it == "https" }
+                        } catch (e: MalformedURLException) {
+                            false
+                        }
+                    }
+                }
+
                 Button(
+                    enabled = isValidUrl,
                     onClick = {
                         pdf = RemotePdfState(url = URL(url), errorIcon, loadingIcon)
                     }
@@ -150,13 +168,6 @@ private fun PdfScreen(
                 modifier = Modifier.align(Alignment.BottomStart),
                 text = "Page $currentPage of ${pdf.pageCount}"
             )
-
-            VerticalScrollbar(
-                modifier = Modifier
-                    .align(Alignment.CenterEnd)
-                    .fillMaxHeight(),
-                lazyListState = lazyListState,
-            )
         }
     }
 }
@@ -166,10 +177,4 @@ expect fun PdfPicker(
     show: Boolean,
     onSelectFile: (PdfState) -> Unit,
     fileExtensions: List<String> = listOf("pdf")
-)
-
-@Composable
-expect fun VerticalScrollbar(
-    modifier: Modifier = Modifier,
-    lazyListState: LazyListState
 )

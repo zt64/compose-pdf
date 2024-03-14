@@ -107,5 +107,7 @@ public actual fun rememberLocalPdfState(file: File): LocalPdfState {
     require(file.exists()) { "File does not exist" }
     require(file.isFile) { "File is not a file" }
 
-    return rememberLocalPdfState(ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY))
+    return rememberLocalPdfState(
+        ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
+    )
 }
