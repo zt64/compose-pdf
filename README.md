@@ -11,18 +11,14 @@
 - Android
 - iOS (planned)
 
-## Installation
+## Setup
 
 <details>
 <summary>Kotlin Build script</summary>
 
 ```kotlin
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    implementation("dev.zt64:compose-pdf:1.0.0")
+    implementation("dev.zt64:compose-pdf:x.y.z")
 }
 ```
 
@@ -32,7 +28,7 @@ dependencies {
 
 ```toml
 [versions]
-compose-pdf = "1.0.0"
+compose-pdf = "x.y.z"
 
 [libraries]
 compose-pdf = { module = "dev.zt64:compose-pdf", version.ref = "compose-pdf" }
@@ -43,10 +39,9 @@ compose-pdf = { module = "dev.zt64:compose-pdf", version.ref = "compose-pdf" }
 ## Usage
 
 ```kotlin
-val pdf = rememberPdfState(File("path/to/file.pdf"))
-//      = rememberPdfState(URL("https://example.com/file.pdf"))
+val pdfState = rememberLocalPdfState(File("path/to/file.pdf"))
 
-Pdf(pdf)
+PdfColumn(pdfState)
 ```
 
 ## License
