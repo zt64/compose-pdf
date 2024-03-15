@@ -1,3 +1,4 @@
+import com.vanniktech.maven.publish.KotlinMultiplatform
 import com.vanniktech.maven.publish.SonatypeHost
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -15,9 +16,7 @@ kotlin {
     jvmToolchain(17)
 
     jvm()
-    androidTarget {
-        publishAllLibraryVariants()
-    }
+    androidTarget()
     // ios()
 
     explicitApi()
@@ -107,6 +106,12 @@ mavenPublishing {
     signAllPublications()
 
     coordinates("dev.zt64", "compose-pdf", version.toString())
+
+    configure(
+        KotlinMultiplatform(
+            sourcesJar = true
+        )
+    )
 
     pom {
         name = "compose-pdf"
