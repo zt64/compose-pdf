@@ -1,6 +1,7 @@
 # Compose PDF
 
-![Maven Central Version](https://img.shields.io/maven-central/v/dev.zt64/compose-pdf)
+![Maven Central Version](https://img.shields.io/maven-central/v/dev.zt64/compose-pdf?link=https%3A%2F%2Fcentral.sonatype.com%2Fartifact%2Fdev.zt64%2Fcompose-pdf)
+![GitHub](https://img.shields.io/github/license/zt64/compose-pdf)
 
 ## Compose Multiplatform library to display PDF files.
 
