@@ -24,7 +24,7 @@ allprojects {
     }
 
     group = "dev.zt64"
-    version = "1.1.0"
+    version = "1.1.1"
 }
 
 subprojects {
