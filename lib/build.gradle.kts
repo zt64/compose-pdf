@@ -108,12 +108,9 @@ android {
 mavenPublishing {
     publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
 
-    // signAllPublications()
+    signAllPublications()
 
     coordinates("dev.zt64", "compose-pdf", version.toString())
-
-    // @Suppress("UnstableApiUsage")
-    // configureBasedOnAppliedPlugins()
 
     configure(KotlinMultiplatform(sourcesJar = true))
 
