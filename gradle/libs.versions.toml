@@ -1,7 +1,7 @@
 [versions]
 kotlin = "1.9.23"
 compose = "1.6.1"
-android = "8.3.0"
+android = "8.3.1"
 androidx-activity = "1.8.2"
 androidx-appcompat = "1.6.1"
 icepdf = "7.2.0"
