@@ -10,7 +10,7 @@ zoomable = "0.11.2"
 
 compatibility = "0.14.0"
 publish = "0.28.0"
-ktlint = "12.1.0"
+ktlint = "12.1.1"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
