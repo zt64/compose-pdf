@@ -21,7 +21,6 @@ import com.mohamedrejeb.calf.core.LocalPlatformContext
 import com.mohamedrejeb.calf.picker.FilePickerFileType
 import com.mohamedrejeb.calf.picker.FilePickerSelectionMode
 import com.mohamedrejeb.calf.picker.rememberFilePickerLauncher
-import dev.zt64.compose.pdf.LocalPdfState
 import dev.zt64.compose.pdf.PdfState
 import dev.zt64.compose.pdf.RemotePdfState
 import dev.zt64.compose.pdf.component.PdfColumn
@@ -63,7 +62,7 @@ fun Application() {
                 ) { files ->
                     scope.launch {
                         files.singleOrNull()?.let { file ->
-                            pdf = LocalPdfState(file.file)
+                            pdf = LocalPdfState(file)
                         }
                     }
                 }
