@@ -1,12 +1,11 @@
 import com.vanniktech.maven.publish.KotlinMultiplatform
 import com.vanniktech.maven.publish.SonatypeHost
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     // alias(libs.plugins.kotlin.native.cocoapods)
-    alias(libs.plugins.compose)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.compose.jb)
     alias(libs.plugins.android.library)
     alias(libs.plugins.publish)
     alias(libs.plugins.compatibility)
@@ -14,6 +13,7 @@ plugins {
 
 kotlin {
     jvmToolchain(17)
+    explicitApi()
 
     jvm()
     androidTarget {
@@ -23,8 +23,6 @@ kotlin {
     // iosX64()
     // iosArm64()
     // iosSimulatorArm64()
-
-    explicitApi()
 
     // cocoapods {
     //     version = "1.0.0"
@@ -58,37 +56,12 @@ kotlin {
                 implementation(libs.icepdf.core)
             }
         }
-
-        all {
-            languageSettings {
-                enableLanguageFeature("ContextReceivers")
-            }
-        }
-    }
-
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
-    compilerOptions {
-        freeCompilerArgs.add("-Xexpect-actual-classes")
     }
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        // if (project.findProperty("composeCompilerReports") == "true") {
-        freeCompilerArgs += arrayOf(
-            "-P",
-            "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
-                project.layout.buildDirectory.get().asFile.absolutePath + "/compose_compiler"
-        )
-        // }
-        // if (project.findProperty("composeCompilerMetrics") == "true") {
-        freeCompilerArgs += arrayOf(
-            "-P",
-            "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
-                project.layout.buildDirectory.get().asFile.absolutePath + "/compose_compiler"
-        )
-        // }
-    }
+composeCompiler {
+    reportsDestination = project.layout.buildDirectory.dir("compose_compiler")
+    metricsDestination = project.layout.buildDirectory.dir("compose_compiler")
 }
 
 android {

@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
@@ -5,7 +6,8 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform) apply false
     alias(libs.plugins.kotlin.native.cocoapods) apply false
 
-    alias(libs.plugins.compose) apply false
+    alias(libs.plugins.compose.compiler) apply false
+    alias(libs.plugins.compose.jb) apply false
 
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.android.application) apply false
@@ -29,9 +31,9 @@ allprojects {
 
 subprojects {
     tasks.withType<KotlinCompile>().configureEach {
-        kotlinOptions {
-            jvmTarget = "17"
-            freeCompilerArgs += "-Xexpect-actual-classes"
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_17
+            freeCompilerArgs.addAll("-Xexpect-actual-classes", "-Xcontext-receivers")
         }
     }
 }
