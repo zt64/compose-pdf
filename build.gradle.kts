@@ -22,7 +22,7 @@ allprojects {
     }
 
     configure<KtlintExtension> {
-        version = "1.2.1"
+        version = rootProject.libs.versions.ktlint
     }
 
     group = "dev.zt64"

@@ -10,7 +10,8 @@ zoomable = "0.11.2"
 
 compatibility = "0.14.0"
 publish = "0.28.0"
-ktlint = "12.1.1"
+ktlintPlugin = "12.1.1"
+ktlint = "1.2.1"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
@@ -29,4 +30,4 @@ android-application = { id = "com.android.application", version.ref = "android" 
 
 compatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "compatibility" }
 publish = { id = "com.vanniktech.maven.publish", version.ref = "publish" }
-ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintPlugin" }
