@@ -17,9 +17,15 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import com.mohamedrejeb.calf.core.LocalPlatformContext
+import com.mohamedrejeb.calf.picker.FilePickerFileType
+import com.mohamedrejeb.calf.picker.FilePickerSelectionMode
+import com.mohamedrejeb.calf.picker.rememberFilePickerLauncher
+import dev.zt64.compose.pdf.LocalPdfState
 import dev.zt64.compose.pdf.PdfState
 import dev.zt64.compose.pdf.RemotePdfState
 import dev.zt64.compose.pdf.component.PdfColumn
+import kotlinx.coroutines.launch
 import me.saket.telephoto.zoomable.rememberZoomableState
 import me.saket.telephoto.zoomable.zoomable
 import java.net.MalformedURLException
@@ -48,16 +54,30 @@ fun Application() {
             ) {
                 var showFilePicker by rememberSaveable { mutableStateOf(false) }
 
-                PdfPicker(
-                    show = showFilePicker,
-                    onSelectFile = {
-                        pdf = it
-                        showFilePicker = false
+                val scope = rememberCoroutineScope()
+                val context = LocalPlatformContext.current
+
+                val pickerLauncher = rememberFilePickerLauncher(
+                    type = FilePickerFileType.Pdf,
+                    selectionMode = FilePickerSelectionMode.Single
+                ) { files ->
+                    scope.launch {
+                        files.singleOrNull()?.let { file ->
+                            pdf = LocalPdfState(file.file)
+                        }
                     }
-                )
+                }
+
+                // PdfPicker(
+                //     show = showFilePicker,
+                //     onSelectFile = {
+                //         pdf = it
+                //         showFilePicker = false
+                //     }
+                // )
 
                 Button(
-                    onClick = { showFilePicker = true }
+                    onClick = pickerLauncher::launch
                 ) {
                     Text("Select PDF file")
                 }
@@ -172,10 +192,3 @@ private fun PdfScreen(
         }
     }
 }
-
-@Composable
-expect fun PdfPicker(
-    show: Boolean,
-    onSelectFile: (PdfState) -> Unit,
-    fileExtensions: List<String> = listOf("pdf")
-)

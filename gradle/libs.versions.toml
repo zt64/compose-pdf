@@ -2,32 +2,43 @@
 kotlin = "2.0.0"
 compose = "1.6.10"
 android = "8.2.1"
+icepdf = "7.2.0"
+
+# Sample dependency versions
 androidx-activity = "1.9.0"
 androidx-appcompat = "1.6.1"
-icepdf = "7.2.0"
-mpfilepicker = "3.1.0"
+calf = "0.4.0"
 zoomable = "0.11.2"
 
+# Maintenance
 compatibility = "0.14.0"
 publish = "0.28.0"
 ktlintPlugin = "12.1.1"
 ktlint = "1.2.1"
 
 [libraries]
+icepdf-core = { module = "com.github.pcorless.icepdf:icepdf-core", version.ref = "icepdf" }
+
+# Sample dependencies
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
-icepdf-core = { module = "com.github.pcorless.icepdf:icepdf-core", version.ref = "icepdf" }
-mpfilepicker = { module = "com.darkrockstudios:mpfilepicker", version.ref = "mpfilepicker" }
+filePicker = { module = "com.mohamedrejeb.calf:calf-file-picker", version.ref = "calf" }
 zoomable = { module = "me.saket.telephoto:zoomable", version.ref = "zoomable" }
 
 [plugins]
+# Kotlin
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-native-cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
+
+# Compose
 compose-jb = { id = "org.jetbrains.compose", version.ref = "compose" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+
+# Android
 android-library = { id = "com.android.library", version.ref = "android" }
 android-application = { id = "com.android.application", version.ref = "android" }
 
+# Maintenance
 compatibility = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "compatibility" }
 publish = { id = "com.vanniktech.maven.publish", version.ref = "publish" }
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlintPlugin" }

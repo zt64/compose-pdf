@@ -35,7 +35,7 @@ kotlin {
                 implementation(compose.material3)
                 implementation(compose.materialIconsExtended)
 
-                implementation(libs.mpfilepicker)
+                implementation(libs.filePicker)
                 implementation(libs.zoomable)
             }
         }
