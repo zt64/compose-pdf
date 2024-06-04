@@ -1,6 +1,6 @@
 [versions]
 kotlin = "2.0.0"
-compose = "1.6.10"
+compose = "1.6.11"
 android = "8.2.1"
 icepdf = "7.2.0"
 
