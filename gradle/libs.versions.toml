@@ -11,7 +11,7 @@ calf = "0.5.1"
 zoomable = "0.11.2"
 
 # Maintenance
-compatibility = "0.15.0"
+compatibility = "0.15.1"
 publish = "0.29.0"
 ktlintPlugin = "12.1.1"
 ktlint = "1.2.1"
