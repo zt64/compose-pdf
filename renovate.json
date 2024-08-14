@@ -5,14 +5,5 @@
         ":automergeMinor",
         ":automergeDigest",
         "schedule:automergeDaily"
-    ],
-    "packageRules": [
-        {
-            "groupName": "Kotlin, Compose",
-            "matchPackagePatterns": [
-                "org.jetbrains.kotlin.*",
-                "org.jetbrains.compose.*"
-            ]
-        }
     ]
 }
