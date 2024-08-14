@@ -18,6 +18,7 @@ ktlint = "1.2.1"
 
 [libraries]
 icepdf-core = { module = "com.github.pcorless.icepdf:icepdf-core", version.ref = "icepdf" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 
 # Sample dependencies
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }

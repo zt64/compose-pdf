@@ -1,5 +1,8 @@
 import com.vanniktech.maven.publish.KotlinMultiplatform
 import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import java.util.*
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -19,10 +22,7 @@ kotlin {
     androidTarget {
         publishLibraryVariants("release")
     }
-
-    // iosX64()
-    // iosArm64()
-    // iosSimulatorArm64()
+    // apple()
 
     // cocoapods {
     //     version = "1.0.0"
@@ -44,15 +44,14 @@ kotlin {
 
         commonTest {
             dependencies {
-                implementation(kotlin("test"))
-                implementation(compose.desktop.uiTestJUnit4)
-                implementation(compose.desktop.currentOs)
+                implementation(libs.kotlin.test)
             }
         }
 
         jvmMain {
             dependencies {
-                implementation(compose.desktop.common)
+                implementation(compose.desktop.currentOs)
+                implementation(compose.desktop.uiTestJUnit4)
                 implementation(libs.icepdf.core)
             }
         }
@@ -116,4 +115,26 @@ mavenPublishing {
             developerConnection = "scm:git:ssh://github.com/zt64/compose-pdf.git"
         }
     }
+}
+
+fun KotlinMultiplatformExtension.apple(
+    skipCheck: Boolean = false,
+    configure: KotlinNativeTarget.() -> Unit = {}
+) {
+    if (!skipCheck) {
+        val isMacOs = System
+            .getProperty("os.name")
+            .lowercase(Locale.getDefault())
+            .contains("mac")
+
+        if (!isMacOs) return
+    }
+
+    listOf(
+        iosX64(),
+        iosArm64(),
+        iosSimulatorArm64(),
+        macosX64(),
+        macosArm64()
+    ).forEach(configure)
 }
