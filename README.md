@@ -47,6 +47,10 @@ val pdfState = rememberLocalPdfState(File("path/to/file.pdf"))
 PdfColumn(pdfState)
 ```
 
+## Planned features
+- [ ] Unified local and remote pdf state
+- [ ] Using Canvas instead of an Image to render
+
 ## License
 
 [MIT](LICENSE)
