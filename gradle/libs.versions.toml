@@ -1,5 +1,5 @@
 [versions]
-kotlin = "2.0.20"
+kotlin = "2.0.21"
 compose = "1.6.11"
 android = "8.7.0"
 icepdf = "7.2.1"
