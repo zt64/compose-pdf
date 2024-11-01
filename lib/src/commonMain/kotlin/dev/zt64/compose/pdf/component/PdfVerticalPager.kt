@@ -2,7 +2,7 @@ package dev.zt64.compose.pdf.component
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.snapping.SnapFlingBehavior
+import androidx.compose.foundation.gestures.TargetedFlingBehavior
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.pager.*
 import androidx.compose.runtime.Composable
@@ -27,10 +27,10 @@ public fun PdfVerticalPager(
     },
     contentPadding: PaddingValues = PaddingValues(0.dp),
     pageSize: PageSize = PageSize.Fill,
-    beyondBoundsPageCount: Int = 0,
+    beyondViewportPageCount: Int = 0,
     pageSpacing: Dp = 0.dp,
     horizontalAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
-    flingBehavior: SnapFlingBehavior = PagerDefaults.flingBehavior(pagerState),
+    flingBehavior: TargetedFlingBehavior = PagerDefaults.flingBehavior(state = pagerState),
     userScrollEnabled: Boolean = true,
     reverseLayout: Boolean = false,
     pageNestedScrollConnection: NestedScrollConnection = PagerDefaults.pageNestedScrollConnection(
@@ -43,7 +43,7 @@ public fun PdfVerticalPager(
         modifier = modifier,
         contentPadding = contentPadding,
         pageSize = pageSize,
-        beyondBoundsPageCount = beyondBoundsPageCount,
+        beyondViewportPageCount = beyondViewportPageCount,
         pageSpacing = pageSpacing,
         horizontalAlignment = horizontalAlignment,
         flingBehavior = flingBehavior,
