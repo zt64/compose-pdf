@@ -66,7 +66,7 @@ public final class dev/zt64/compose/pdf/component/PdfDefaults {
 }
 
 public final class dev/zt64/compose/pdf/component/PdfHorizontalPagerKt {
-	public static final fun PdfHorizontalPager-xKBSf-U (Ldev/zt64/compose/pdf/PdfState;Landroidx/compose/foundation/pager/PagerState;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/pager/PageSize;IFLandroidx/compose/ui/Alignment$Vertical;Landroidx/compose/foundation/gestures/snapping/SnapFlingBehavior;ZZLandroidx/compose/ui/input/nestedscroll/NestedScrollConnection;Landroidx/compose/runtime/Composer;III)V
+	public static final fun PdfHorizontalPager-xKBSf-U (Ldev/zt64/compose/pdf/PdfState;Landroidx/compose/foundation/pager/PagerState;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/pager/PageSize;IFLandroidx/compose/ui/Alignment$Vertical;Landroidx/compose/foundation/gestures/TargetedFlingBehavior;ZZLandroidx/compose/ui/input/nestedscroll/NestedScrollConnection;Landroidx/compose/runtime/Composer;III)V
 }
 
 public final class dev/zt64/compose/pdf/component/PdfPageKt {
@@ -74,6 +74,6 @@ public final class dev/zt64/compose/pdf/component/PdfPageKt {
 }
 
 public final class dev/zt64/compose/pdf/component/PdfVerticalPagerKt {
-	public static final fun PdfVerticalPager-xKBSf-U (Ldev/zt64/compose/pdf/PdfState;Landroidx/compose/foundation/pager/PagerState;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/pager/PageSize;IFLandroidx/compose/ui/Alignment$Horizontal;Landroidx/compose/foundation/gestures/snapping/SnapFlingBehavior;ZZLandroidx/compose/ui/input/nestedscroll/NestedScrollConnection;Landroidx/compose/runtime/Composer;III)V
+	public static final fun PdfVerticalPager-xKBSf-U (Ldev/zt64/compose/pdf/PdfState;Landroidx/compose/foundation/pager/PagerState;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/pager/PageSize;IFLandroidx/compose/ui/Alignment$Horizontal;Landroidx/compose/foundation/gestures/TargetedFlingBehavior;ZZLandroidx/compose/ui/input/nestedscroll/NestedScrollConnection;Landroidx/compose/runtime/Composer;III)V
 }
 
