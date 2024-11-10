@@ -7,7 +7,7 @@ icepdf = "7.2.1"
 # Sample dependency versions
 androidx-activity = "1.9.3"
 androidx-appcompat = "1.7.0"
-calf = "0.6.0"
+calf = "0.6.1"
 zoomable = "0.13.0"
 
 # Maintenance
