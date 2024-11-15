@@ -8,7 +8,7 @@ icepdf = "7.2.1"
 androidx-activity = "1.9.3"
 androidx-appcompat = "1.7.0"
 calf = "0.6.1"
-zoomable = "0.13.0"
+zoomable = "0.14.0"
 
 # Maintenance
 compatibility = "0.16.3"
