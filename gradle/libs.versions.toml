@@ -1,7 +1,7 @@
 [versions]
 kotlin = "2.1.0"
 compose = "1.7.3"
-android = "8.7.3"
+android = "8.8.0"
 icepdf = "7.2.2"
 
 # Sample dependency versions
