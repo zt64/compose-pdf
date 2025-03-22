@@ -15,7 +15,8 @@ internal inline fun CoroutineScope.downloadPdf(
         try {
             val name = url.path.split("/").lastOrNull()?.removeSuffix(".pdf") ?: "PdfFile"
             val pdfFile = File.createTempFile(name, ".pdf")
-            Downloader.download(url, pdfFile)
+
+            if (!pdfFile.exists()) Downloader.download(url, pdfFile)
 
             onComplete(pdfFile)
         } catch (e: Throwable) {

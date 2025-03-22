@@ -42,14 +42,24 @@ compose-pdf = { module = "dev.zt64:compose-pdf", version.ref = "compose-pdf" }
 ## Usage
 
 ```kotlin
-val pdfState = rememberLocalPdfState(File("path/to/file.pdf"))
+// To display a PDF file, first you need a PDF state
+// It can be created using the `rememberPdfState` function
+// The function has several available overloads, for example, you can pass a `File` object
+val pdfState = rememberPdfState(File("path/to/file.pdf"))
 
+// Then you can use the included composables to display the PDF
+// For example to display all pages in a vertical list you can use the `PdfColumn` composable
 PdfColumn(pdfState)
-```
 
-## Planned features
-- [ ] Unified local and remote pdf state
-- [ ] Using Canvas instead of an Image to render
+// Or to display in a vertical list with snapping you can use the `PdfVerticalPager` composable
+PdfVerticalPager(pdfState)
+
+// And likewise for a horizontal list with snapping you can use the `PdfHorizontalPager` composable
+PdfHorizontalPager(pdfState)
+
+// You can also use the `PdfPage` composable directly to display a single page and have more control over the layout
+PdfPage(pdfState, pageNumber = 0)
+```
 
 ## License
 

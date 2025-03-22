@@ -7,7 +7,7 @@ icepdf = "7.3.0"
 # Sample dependency versions
 androidx-activity = "1.9.3"
 androidx-appcompat = "1.7.1"
-calf = "0.7.0"
+filekit = "0.8.7"
 zoomable = "0.15.1"
 
 # Maintenance
@@ -23,7 +23,7 @@ kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotl
 # Sample dependencies
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
-filePicker = { module = "com.mohamedrejeb.calf:calf-file-picker", version.ref = "calf" }
+filekit = { module = "io.github.vinceglb:filekit-compose", version.ref = "filekit" }
 zoomable = { module = "me.saket.telephoto:zoomable", version.ref = "zoomable" }
 
 [plugins]

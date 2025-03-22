@@ -1,12 +1,11 @@
 package dev.zt64.compose.pdf.sample
 
 import androidx.compose.ui.window.singleWindowApplication
-import org.jetbrains.skiko.setSystemLookAndFeel
+import java.awt.Dimension
 
 fun main() {
-    setSystemLookAndFeel()
-
     singleWindowApplication(title = "Compose PDF Sample") {
+        window.minimumSize = Dimension(800, 600)
         Application()
     }
 }
