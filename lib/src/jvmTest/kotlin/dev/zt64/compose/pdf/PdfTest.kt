@@ -17,7 +17,7 @@ class PdfTest {
     fun `should load from file`() {
         compose.setContent {
             val state = this::class.java.getResource("/dummy.pdf")?.let {
-                rememberLocalPdfState(it)
+                rememberPdfState(it)
             } ?: error("dummy.pdf not found")
 
             PdfColumn(state)
@@ -27,7 +27,7 @@ class PdfTest {
     @Test
     fun `should load from url`() {
         compose.setContent {
-            val state = rememberRemotePdfState(URL(PDF_URL))
+            val state = rememberPdfState(URL(PDF_URL))
 
             PdfColumn(state)
         }

@@ -12,6 +12,24 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.zt64.compose.pdf.PdfState
 
+/**
+ * Pdf horizontal pager component that displays pages in a horizontal layout that can be swiped left or right.
+ *
+ * @param state
+ * @param pagerState
+ * @param modifier
+ * @param page
+ * @param contentPadding
+ * @param pageSize
+ * @param beyondViewportPageCount
+ * @param pageSpacing
+ * @param verticalAlignment
+ * @param flingBehavior
+ * @param userScrollEnabled
+ * @param reverseLayout
+ * @param pageNestedScrollConnection
+ * @receiver
+ */
 @Composable
 public fun PdfHorizontalPager(
     state: PdfState,
