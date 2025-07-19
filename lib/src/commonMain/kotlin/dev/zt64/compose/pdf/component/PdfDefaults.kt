@@ -59,11 +59,7 @@ public object PdfDefaults {
 
         val pageSize: DpSize = with(LocalDensity.current) {
             state.getPageSize(index).let {
-                if (it != null) {
-                    DpSize(it.width.toDp(), it.height.toDp())
-                } else {
-                    DpSize.Unspecified
-                }
+                DpSize(it.width.toDp(), it.height.toDp())
             }
         }
 
