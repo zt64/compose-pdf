@@ -9,6 +9,24 @@ import java.net.URI
 import java.net.URL
 
 /**
+ * Create a [PdfState] for the given [file].
+ *
+ * @param file
+ * @return
+ */
+public fun PdfState(file: File): PdfState {
+    return PdfState().apply {
+        init { PdfRenderer(file) }
+    }
+}
+
+public fun PdfState(url: URL): PdfState {
+    return PdfState().apply {
+        init { PdfRenderer(url) }
+    }
+}
+
+/**
  * Remember pdf state for the given [file].
  *
  * @param file
@@ -28,12 +46,8 @@ public fun rememberPdfState(url: URL): PdfState {
     val state = rememberSaveable(
         url,
         saver = listSaver(
-            save = {
-                listOf(url.toString())
-            },
-            restore = {
-                PdfState(URL(it[0]))
-            }
+            save = { listOf(url.toString()) },
+            restore = { PdfState(URL(it[0])) }
         )
     ) {
         PdfState(url)

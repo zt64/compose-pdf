@@ -1,23 +1,25 @@
 [versions]
 kotlin = "2.2.10"
-compose = "1.7.3"
+compose = "1.8.2"
 android = "8.12.1"
 icepdf = "7.3.0"
 
 # Sample dependency versions
-androidx-activity = "1.9.3"
+androidx-activity = "1.10.1"
 androidx-appcompat = "1.7.1"
-filekit = "0.8.7"
-zoomable = "0.15.1"
+androidx-core-ktx = "1.16.0"
+filekit = "0.8.8"
+zoomable = "0.16.0"
 
 # Maintenance
 compatibility = "0.18.1"
-publish = "0.33.0"
-ktlintPlugin = "12.3.0"
+publish = "0.34.0"
+ktlintPlugin = "13.0.0"
 ktlint = "1.2.1"
 
 [libraries]
 icepdf-core = { module = "com.github.pcorless.icepdf:icepdf-core", version.ref = "icepdf" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core-ktx" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 
 # Sample dependencies

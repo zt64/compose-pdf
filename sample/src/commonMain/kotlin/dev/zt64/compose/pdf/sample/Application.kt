@@ -18,6 +18,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import dev.zt64.compose.pdf.component.PdfColumn
+import dev.zt64.compose.pdf.component.PdfDefaults
 import dev.zt64.compose.pdf.rememberPdfState
 import io.github.vinceglb.filekit.compose.rememberFilePickerLauncher
 import io.github.vinceglb.filekit.core.PickerMode
@@ -30,7 +31,9 @@ import java.net.URI
 sealed interface Destination {
     data object Home : Destination
 
-    data class Pdf(val pdf: URI) : Destination
+    data class Pdf(
+        val pdf: URI
+    ) : Destination
 }
 
 @Composable
@@ -60,7 +63,7 @@ fun Application() {
 @Composable
 private fun HomeScreen(onSelectPdf: (URI) -> Unit) {
     var text by rememberSaveable {
-        mutableStateOf("https://pdfobject.com/pdf/sample.pdf")
+        mutableStateOf("https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf")
     }
     var uri by rememberSaveable {
         mutableStateOf<URI?>(null)
@@ -84,7 +87,7 @@ private fun HomeScreen(onSelectPdf: (URI) -> Unit) {
             if (platformFile == null) return@rememberFilePickerLauncher
 
             scope.launch {
-                onSelectPdf(platformFile.file.toURI())
+                // onSelectPdf(platformFile.path.toURI())
             }
         }
 
@@ -153,8 +156,29 @@ private fun PdfScreen(
 
     val state = rememberPdfState(uri)
     val lazyListState = rememberLazyListState()
-    val currentPage by rememberSaveable(lazyListState.firstVisibleItemScrollOffset) {
-        derivedStateOf { lazyListState.firstVisibleItemIndex + 1 }
+    val currentPage by remember {
+        derivedStateOf {
+            val layoutInfo = lazyListState.layoutInfo
+            val visibleItemsInfo = layoutInfo.visibleItemsInfo
+
+            if (visibleItemsInfo.isEmpty()) {
+                lazyListState.firstVisibleItemIndex + 1
+            } else {
+                val viewportHeight = layoutInfo.viewportEndOffset - layoutInfo.viewportStartOffset
+
+                val mostVisibleItem = visibleItemsInfo.maxBy {
+                    val itemStartOffset = it.offset
+                    val itemEndOffset = it.offset + it.size
+
+                    val visibleStart = maxOf(0, itemStartOffset)
+                    val visibleEnd = minOf(viewportHeight, itemEndOffset)
+
+                    visibleEnd - visibleStart
+                }
+
+                mostVisibleItem.index + 1
+            }
+        }
     }
 
     val zoom = rememberZoomableState()
@@ -207,6 +231,23 @@ private fun PdfScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .zoomable(zoom),
+            page = { index ->
+                PdfDefaults.PdfPage(
+                    state = state,
+                    index = index,
+                    loadingIndicator = {
+                        CircularProgressIndicator()
+                    },
+                    errorIndicator = {
+                        Text(
+                            text = "Error loading page $index",
+                            style = MaterialTheme.typography.labelLarge.copy(
+                                color = MaterialTheme.colorScheme.error
+                            )
+                        )
+                    }
+                )
+            },
             state = state,
             lazyListState = lazyListState
         )

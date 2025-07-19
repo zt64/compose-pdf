@@ -36,7 +36,7 @@ public fun PdfHorizontalPager(
     pagerState: PagerState = rememberPagerState { state.pageCount },
     modifier: Modifier = Modifier,
     page: @Composable (index: Int) -> Unit = {
-        PdfPage(
+        PdfDefaults.PdfPage(
             state = state,
             index = it
         )
