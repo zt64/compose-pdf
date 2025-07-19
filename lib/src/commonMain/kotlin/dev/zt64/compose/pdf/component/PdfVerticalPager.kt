@@ -18,7 +18,7 @@ public fun PdfVerticalPager(
     pagerState: PagerState = rememberPagerState { state.pageCount },
     modifier: Modifier = Modifier,
     page: @Composable (index: Int) -> Unit = {
-        PdfPage(
+        PdfDefaults.PdfPage(
             state = state,
             index = it
         )
@@ -51,9 +51,4 @@ public fun PdfVerticalPager(
     ) { i ->
         page(i)
     }
-}
-
-public object PdfDefaults {
-    public val PageHorizontalSpacing: Dp = 16.dp
-    public val PageVerticalSpacing: Dp = 16.dp
 }

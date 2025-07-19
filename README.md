@@ -1,7 +1,7 @@
 # Compose PDF
 
 [![Maven Central Version](https://img.shields.io/maven-central/v/dev.zt64/compose-pdf?link=https%3A%2F%2Fcentral.sonatype.com%2Fartifact%2Fdev.zt64%2Fcompose-pdf)](https://central.sonatype.com/artifact/dev.zt64/compose-pdf)
-![GitHub](https://img.shields.io/github/license/zt64/compose-pdf) 
+![GitHub](https://img.shields.io/github/license/zt64/compose-pdf)
 <br>
 ![badge-platform-jvm]
 ![badge-platform-android]
@@ -11,7 +11,7 @@ Compose Multiplatform library to display PDF files.
 ## Supported platforms:
 
 - Desktop (JVM) through [ICEpdf](https://github.com/pcorless/icepdf)
-- Android
+- Android 5.0+ (SDK 21)
 - iOS (planned) https://github.com/zt64/compose-pdf/issues/28
 
 ## Setup

@@ -2,62 +2,33 @@ package dev.zt64.compose.pdf
 
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
 
 public class PdfPage(
     public val index: Int,
     public val id: Int
-    // public val imageBitmap: ImageBitmap
 )
 
-public class LazyPdfPages(private val flow: Flow<PdfPage>) {
-    private val mainDispatcher = Dispatchers.Main
-    private val coroutineScope = CoroutineScope(mainDispatcher + Job())
-
-    public var itemSnapshotList: SnapshotStateList<PdfPage> = mutableStateListOf()
-        private set
-
+@Stable
+public class LazyPdfPages(
+    public val pages: SnapshotStateList<PdfPage>
+) {
     public val itemCount: Int
-        get() = itemSnapshotList.size
+        get() = pages.size
 
-    public operator fun get(index: Int): PdfPage? {
-        return itemSnapshotList.getOrNull(index)
-    }
-
-    public fun peek(index: Int): PdfPage? {
-        return itemSnapshotList.getOrNull(index)
-    }
-
-    public fun retry() {
-        // Implement retry logic if needed
-    }
-
-    internal suspend fun collectPagingData() {
-        flow.collectLatest { page ->
-            itemSnapshotList.add(page)
-        }
-    }
-
-    internal suspend fun collectLoadState() {
-        // Implement load state collection if needed
-    }
+    public operator fun get(index: Int): PdfPage = pages[index]
 }
 
 @Composable
-public fun Flow<PdfPage>.collectAsLazyPdfPages(
-    context: CoroutineContext = EmptyCoroutineContext
-): LazyPdfPages {
-    val lazyPdfPages = remember(this) { LazyPdfPages(this) }
+public fun Flow<PdfPage>.collectAsLazyPdfPages(): LazyPdfPages {
+    val pages = remember { mutableStateListOf<PdfPage>() }
+    val lazyPdfPages = remember { LazyPdfPages(pages) }
 
-    LaunchedEffect(lazyPdfPages) {
-        if (context == EmptyCoroutineContext) {
-            lazyPdfPages.collectPagingData()
-        } else {
-            withContext(context) { lazyPdfPages.collectPagingData() }
+    LaunchedEffect(this) {
+        collect { page ->
+            // This assumes the flow emits pages in order and doesn't clear the list.
+            // If the flow can be re-collected, you might want to clear `pages` first.
+            pages.add(page)
         }
     }
 

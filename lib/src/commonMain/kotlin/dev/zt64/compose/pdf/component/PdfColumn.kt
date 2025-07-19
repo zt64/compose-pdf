@@ -1,47 +1,43 @@
 package dev.zt64.compose.pdf.component
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.FlingBehavior
 import androidx.compose.foundation.gestures.ScrollableDefaults
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.text.BasicText
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
 import dev.zt64.compose.pdf.PdfState
 import dev.zt64.compose.pdf.collectAsLazyPdfPages
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 /**
- * Pdf column
+ * Displays a vertical, scrollable list of PDF pages.
  *
- * @param state
- * @param modifier
+ * @param state The [PdfState] containing the PDF document and its pages.
+ * @param modifier Modifier for styling and layout.
+ * @param zoom The zoom factor for rendering pages.
  * @param page
- * @param lazyListState
- * @param contentPadding
- * @param reverseLayout
- * @param verticalArrangement
- * @param horizontalAlignment
- * @param flingBehavior
- * @param userScrollEnabled
+ * @param lazyListState State object for controlling and observing the scroll position.
+ * @param contentPadding Padding around the content.
+ * @param reverseLayout If true, reverses the order of pages.
+ * @param verticalArrangement Arrangement of items vertically.
+ * @param horizontalAlignment Alignment of items horizontally.
+ * @param flingBehavior Customizes the fling (scroll) behavior.
+ * @param userScrollEnabled Enables or disables user scrolling.
  */
 @Composable
 public fun PdfColumn(
     state: PdfState,
     modifier: Modifier = Modifier,
     zoom: Float = 1f,
-    page: @Composable (index: Int) -> Unit = {
-        PdfPage(
+    page: @Composable (index: Int) -> Unit = { index ->
+        PdfDefaults.PdfPage(
             state = state,
-            index = it
+            index = index
         )
     },
     lazyListState: LazyListState = rememberLazyListState(),
@@ -69,40 +65,9 @@ public fun PdfColumn(
     ) {
         items(
             count = pages.itemCount,
-            key = { i -> pages[i]?.id ?: i }
+            key = { i -> pages[i].id }
         ) { i ->
-            val page = pages[i]
-
-            if (page == null) {
-                BasicText(
-                    text = "Loading page... $i",
-                    color = { Color.White }
-                )
-            } else {
-                val scope = rememberCoroutineScope { Dispatchers.IO }
-                var imageBitmap by remember { mutableStateOf<ImageBitmap?>(null) }
-
-                LaunchedEffect(Unit) {
-                    scope.launch {
-                        imageBitmap = state.loadPage(page.index, zoom)
-                    }
-                }
-
-                if (imageBitmap != null) {
-                    Canvas(
-                        modifier = Modifier
-                            .width(imageBitmap!!.width.dp)
-                            .height(imageBitmap!!.height.dp)
-                    ) {
-                        drawImage(imageBitmap!!)
-                    }
-                } else {
-                    BasicText(
-                        text = "Loading... ${page.index}",
-                        color = { Color.White }
-                    )
-                }
-            }
+            page(i)
         }
     }
 }
