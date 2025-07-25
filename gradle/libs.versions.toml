@@ -2,7 +2,7 @@
 kotlin = "2.2.0"
 compose = "1.7.3"
 android = "8.11.1"
-icepdf = "7.2.5"
+icepdf = "7.3.0"
 
 # Sample dependency versions
 androidx-activity = "1.9.3"
