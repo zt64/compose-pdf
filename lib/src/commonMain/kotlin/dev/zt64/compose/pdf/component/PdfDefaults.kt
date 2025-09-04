@@ -61,23 +61,30 @@ public object PdfDefaults {
             }
         }
 
-        if (pageLoadState is LoadState.Loaded) {
-            Image(
-                modifier = Modifier
-                    .widthIn(max = 600.dp)
-                    .fillMaxSize(),
-                bitmap = bitmap!!,
-                contentDescription = "Page $index",
-                contentScale = contentScale
-            )
-        } else {
-            Box(
-                modifier = modifier.size(pageSize),
-                contentAlignment = Alignment.Center
-            ) {
-                if (pageLoadState is LoadState.Error) {
+        when (pageLoadState) {
+            LoadState.Loaded -> {
+                Image(
+                    modifier = Modifier
+                        .widthIn(max = 600.dp)
+                        .fillMaxSize(),
+                    bitmap = bitmap!!,
+                    contentDescription = "Page $index",
+                    contentScale = contentScale
+                )
+            }
+            is LoadState.Error -> {
+                Box(
+                    modifier = modifier.size(pageSize),
+                    contentAlignment = Alignment.Center
+                ) {
                     errorIndicator()
-                } else if (pageLoadState is LoadState.Loading) {
+                }
+            }
+            LoadState.Loading -> {
+                Box(
+                    modifier = modifier.size(pageSize),
+                    contentAlignment = Alignment.Center
+                ) {
                     loadingIndicator()
                 }
             }
