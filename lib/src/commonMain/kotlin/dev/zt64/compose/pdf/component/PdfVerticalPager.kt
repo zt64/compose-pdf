@@ -1,6 +1,5 @@
 package dev.zt64.compose.pdf.component
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.TargetedFlingBehavior
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,14 +12,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.zt64.compose.pdf.PdfState
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 public fun PdfVerticalPager(
     state: PdfState,
     pagerState: PagerState = rememberPagerState { state.pageCount },
     modifier: Modifier = Modifier,
     page: @Composable (index: Int) -> Unit = {
-        PdfPage(
+        PdfDefaults.PdfPage(
             state = state,
             index = it
         )
@@ -53,9 +51,4 @@ public fun PdfVerticalPager(
     ) { i ->
         page(i)
     }
-}
-
-public object PdfDefaults {
-    public val PageHorizontalSpacing: Dp = 16.dp
-    public val PageVerticalSpacing: Dp = 16.dp
 }

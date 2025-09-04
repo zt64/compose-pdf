@@ -1,8 +1,10 @@
+@file:OptIn(ExperimentalKotlinGradlePluginApi::class)
+
 import com.vanniktech.maven.publish.KotlinMultiplatform
-import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-import java.util.*
+import java.util.Locale
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -18,11 +20,20 @@ kotlin {
     jvmToolchain(17)
     explicitApi()
 
+    applyDefaultHierarchyTemplate {
+        common {
+            group("jvmCommon") {
+                withAndroidTarget()
+                withJvm()
+            }
+        }
+    }
+
     jvm()
     androidTarget {
         publishLibraryVariants("release")
     }
-    // apple()
+    // apple() // See https://github.com/zt64/compose-pdf/issues/28
 
     // cocoapods {
     //     version = "1.0.0"
@@ -55,6 +66,17 @@ kotlin {
                 implementation(libs.icepdf.core)
             }
         }
+
+        androidMain {
+            dependencies {
+                implementation(libs.androidx.core.ktx)
+            }
+        }
+    }
+
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    compilerOptions {
+        freeCompilerArgs.addAll("-Xexpect-actual-classes")
     }
 }
 
@@ -65,7 +87,7 @@ composeCompiler {
 
 android {
     namespace = "dev.zt64.compose.pdf"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 21
@@ -78,7 +100,7 @@ android {
 }
 
 mavenPublishing {
-    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
+    publishToMavenCentral(automaticRelease = true)
 
     signAllPublications()
 
@@ -117,10 +139,7 @@ mavenPublishing {
     }
 }
 
-fun KotlinMultiplatformExtension.apple(
-    skipCheck: Boolean = false,
-    configure: KotlinNativeTarget.() -> Unit = {}
-) {
+fun KotlinMultiplatformExtension.apple(skipCheck: Boolean = false, configure: KotlinNativeTarget.() -> Unit = {}) {
     if (!skipCheck) {
         val isMacOs = System
             .getProperty("os.name")

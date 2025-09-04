@@ -12,15 +12,32 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.zt64.compose.pdf.PdfState
+import dev.zt64.compose.pdf.collectAsLazyPdfPages
 
+/**
+ * Displays a vertical, scrollable list of PDF pages.
+ *
+ * @param state The [PdfState] containing the PDF document and its pages.
+ * @param modifier Modifier for styling and layout.
+ * @param zoom The zoom factor for rendering pages.
+ * @param page
+ * @param lazyListState State object for controlling and observing the scroll position.
+ * @param contentPadding Padding around the content.
+ * @param reverseLayout If true, reverses the order of pages.
+ * @param verticalArrangement Arrangement of items vertically.
+ * @param horizontalAlignment Alignment of items horizontally.
+ * @param flingBehavior Customizes the fling (scroll) behavior.
+ * @param userScrollEnabled Enables or disables user scrolling.
+ */
 @Composable
 public fun PdfColumn(
     state: PdfState,
     modifier: Modifier = Modifier,
-    page: @Composable (index: Int) -> Unit = {
-        PdfPage(
+    zoom: Float = 1f,
+    page: @Composable (index: Int) -> Unit = { index ->
+        PdfDefaults.PdfPage(
             state = state,
-            index = it
+            index = index
         )
     },
     lazyListState: LazyListState = rememberLazyListState(),
@@ -34,6 +51,8 @@ public fun PdfColumn(
     flingBehavior: FlingBehavior = ScrollableDefaults.flingBehavior(),
     userScrollEnabled: Boolean = true
 ) {
+    val pages = state.pages.collectAsLazyPdfPages()
+
     LazyColumn(
         modifier = modifier,
         state = lazyListState,
@@ -45,8 +64,8 @@ public fun PdfColumn(
         userScrollEnabled = userScrollEnabled
     ) {
         items(
-            count = state.pageCount,
-            key = { index -> "$index" }
+            count = pages.itemCount,
+            key = { i -> pages[i].id }
         ) { i ->
             page(i)
         }
