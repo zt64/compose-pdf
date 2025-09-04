@@ -31,9 +31,7 @@ import java.net.URI
 sealed interface Destination {
     data object Home : Destination
 
-    data class Pdf(
-        val pdf: URI
-    ) : Destination
+    data class Pdf(val pdf: URI) : Destination
 }
 
 @Composable
@@ -49,7 +47,6 @@ fun Application() {
                     onSelectPdf = { destination = Destination.Pdf(it) }
                 )
             }
-
             is Destination.Pdf -> {
                 PdfScreen(
                     uri = dest.pdf,
@@ -147,10 +144,7 @@ private fun HomeScreen(onSelectPdf: (URI) -> Unit) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun PdfScreen(
-    uri: URI,
-    onClickBack: () -> Unit
-) {
+private fun PdfScreen(uri: URI, onClickBack: () -> Unit) {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -218,38 +212,53 @@ private fun PdfScreen(
                 scrollBehavior = scrollBehavior
             )
         },
-        bottomBar = {
-            BottomAppBar {
-                Text("Page $currentPage of ${state.pageCount}")
-            }
-        },
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { paddingValues ->
         // TODO: Implement Ctrl + Scroll to zoom
-        PdfColumn(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
-                .zoomable(zoom),
-            page = { index ->
-                PdfDefaults.PdfPage(
-                    state = state,
-                    index = index,
-                    loadingIndicator = {
-                        CircularProgressIndicator()
-                    },
-                    errorIndicator = {
-                        Text(
-                            text = "Error loading page $index",
-                            style = MaterialTheme.typography.labelLarge.copy(
-                                color = MaterialTheme.colorScheme.error
+                .padding(top = paddingValues.calculateTopPadding())
+        ) {
+            PdfColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp)
+                    .zoomable(zoom),
+                page = { index ->
+                    PdfDefaults.PdfPage(
+                        state = state,
+                        index = index,
+                        loadingIndicator = { CircularProgressIndicator() },
+                        errorIndicator = {
+                            Text(
+                                text = "Error loading page $index",
+                                style = MaterialTheme.typography.labelLarge.copy(
+                                    color = MaterialTheme.colorScheme.error
+                                )
                             )
-                        )
-                    }
+                        }
+                    )
+                },
+                state = state,
+                lazyListState = lazyListState,
+                contentPadding = PaddingValues(bottom = 48.dp)
+            )
+
+            Surface(
+                modifier = Modifier
+                    .padding(bottom = 8.dp)
+                    .navigationBarsPadding()
+                    .align(Alignment.BottomCenter),
+                shape = MaterialTheme.shapes.small,
+                color = MaterialTheme.colorScheme.surface.copy(0.8f),
+                tonalElevation = 4.dp
+            ) {
+                Text(
+                    modifier = Modifier.padding(4.dp),
+                    text = "Page $currentPage of ${state.pageCount}"
                 )
-            },
-            state = state,
-            lazyListState = lazyListState
-        )
+            }
+        }
     }
 }

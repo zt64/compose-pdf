@@ -43,10 +43,7 @@ internal actual inline val PdfRenderer.pageCount: Int
     get() = numberOfPages
 
 // -- Functions --
-internal actual suspend inline fun PdfRenderer.renderPage(
-    pageIndex: Int,
-    zoom: Float
-): ImageBitmap {
+internal actual suspend inline fun PdfRenderer.renderPage(pageIndex: Int, zoom: Float): ImageBitmap {
     val image = getPageImage(
         // pageNumber =
         pageIndex,
@@ -67,10 +64,7 @@ internal actual suspend inline fun PdfRenderer.renderPage(
     return bmp
 }
 
-internal actual inline fun PdfRenderer.getPageSize(
-    pageIndex: Int,
-    zoom: Float
-): IntSize {
+internal actual inline fun PdfRenderer.getPageSize(pageIndex: Int, zoom: Float): IntSize {
     return getPageDimension(pageIndex, zoom).let { size ->
         IntSize(
             width = size.width.toInt(),

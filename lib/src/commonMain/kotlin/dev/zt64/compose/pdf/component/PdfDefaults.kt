@@ -1,9 +1,7 @@
 package dev.zt64.compose.pdf.component
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,7 +21,7 @@ public object PdfDefaults {
     public val PageVerticalSpacing: Dp = 16.dp
 
     /**
-     * PDF page
+     * PDF page component that displays a single page of a PDF document.
      *
      * @param state The PDF state managing the PDF document
      * @param index The page index to display (0-based)
@@ -39,16 +37,16 @@ public object PdfDefaults {
         modifier: Modifier = Modifier,
         loadingIndicator: @Composable () -> Unit = {},
         errorIndicator: @Composable () -> Unit = {},
-        contentScale: ContentScale = ContentScale.FillHeight
+        contentScale: ContentScale = ContentScale.FillWidth
     ) {
         var pageLoadState by remember { mutableStateOf<LoadState>(LoadState.Loading) }
         var bitmap by remember { mutableStateOf<ImageBitmap?>(null) }
         val scope = rememberCoroutineScope()
 
         LaunchedEffect(index) {
-            pageLoadState = LoadState.Loading
             try {
                 scope.launch(Dispatchers.IO) {
+                    pageLoadState = LoadState.Loading
                     bitmap = state.loadPage(index)
                     pageLoadState = LoadState.Loaded
                 }
@@ -57,32 +55,30 @@ public object PdfDefaults {
             }
         }
 
-        val pageSize: DpSize = with(LocalDensity.current) {
+        val pageSize = with(LocalDensity.current) {
             state.getPageSize(index).let {
                 DpSize(it.width.toDp(), it.height.toDp())
             }
         }
 
-        Box(
-            modifier = modifier.then(Modifier.size(pageSize.width, pageSize.height)),
-            contentAlignment = Alignment.Center
-        ) {
-            when (pageLoadState) {
-                LoadState.Loading -> {
-                    loadingIndicator()
-                }
-
-                LoadState.Loaded -> {
-                    Image(
-                        bitmap = bitmap!!,
-                        contentDescription = "Page $index",
-                        modifier = Modifier.fillMaxSize(),
-                        contentScale = contentScale
-                    )
-                }
-
-                is LoadState.Error -> {
+        if (pageLoadState is LoadState.Loaded) {
+            Image(
+                modifier = Modifier
+                    .widthIn(max = 600.dp)
+                    .fillMaxSize(),
+                bitmap = bitmap!!,
+                contentDescription = "Page $index",
+                contentScale = contentScale
+            )
+        } else {
+            Box(
+                modifier = modifier.size(pageSize),
+                contentAlignment = Alignment.Center
+            ) {
+                if (pageLoadState is LoadState.Error) {
                     errorIndicator()
+                } else if (pageLoadState is LoadState.Loading) {
+                    loadingIndicator()
                 }
             }
         }

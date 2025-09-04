@@ -20,9 +20,15 @@ public class PdfState internal constructor() : AutoCloseable {
     private val _loadState = MutableStateFlow<LoadState>(LoadState.Loading)
     public val loadState: StateFlow<LoadState> get() = _loadState
 
+    /**
+     * The number of pages in the PDF document
+     */
     public var pageCount: Int by mutableIntStateOf(0)
         private set
 
+    /**
+     * A flow that emits a [PdfPage] object for each page in the PDF document
+     */
     public val pages: Flow<PdfPage> = channelFlow {
         val job = coroutineScope.launch {
             loadState.collectLatest { state ->
@@ -36,19 +42,14 @@ public class PdfState internal constructor() : AutoCloseable {
         awaitClose { job.cancel() }
     }
 
-    internal constructor(
-        initBlock: suspend () -> PdfRenderer
-    ) : this() {
+    internal constructor(initBlock: suspend () -> PdfRenderer) : this() {
         init(initBlock)
     }
 
     /**
      * @param index the page number to render
      */
-    public suspend fun loadPage(
-        index: Int,
-        zoom: Float = 1f
-    ): ImageBitmap {
+    public suspend fun loadPage(index: Int, zoom: Float = 1f): ImageBitmap {
         return withContext(Dispatchers.IO) {
             renderer.renderPage(index, zoom)
         }
@@ -85,7 +86,5 @@ public sealed interface LoadState {
 
     public data object Loaded : LoadState
 
-    public data class Error(
-        public val exception: Exception
-    ) : LoadState
+    public data class Error(public val exception: Exception) : LoadState
 }

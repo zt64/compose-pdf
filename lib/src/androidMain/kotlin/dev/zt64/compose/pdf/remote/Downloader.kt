@@ -12,10 +12,7 @@ internal object Downloader {
      * @param url Url of the file you wish to download
      * @param dest Desired location of the downloaded file
      */
-    suspend fun download(
-        url: URL,
-        dest: File
-    ) = withContext(Dispatchers.IO) {
+    suspend fun download(url: URL, dest: File) = withContext(Dispatchers.IO) {
         val conn = (url.openConnection() as HttpURLConnection).apply {
             addRequestProperty("User-Agent", "compose-pdf (https://github.com/zt64/compose-pdf)")
         }
@@ -31,14 +28,10 @@ internal object Downloader {
      * @param conn The request
      * @param dest The file to save to
      */
-    private suspend fun saveToFile(
-        conn: HttpURLConnection,
-        dest: File
-    ) = withContext(Dispatchers.IO) {
+    private suspend fun saveToFile(conn: HttpURLConnection, dest: File) = withContext(Dispatchers.IO) {
         if (dest.exists()) {
             when {
                 !dest.canWrite() -> throw IOException("Cannot write to file: ${dest.absolutePath}")
-
                 dest.isDirectory -> throw IOException(
                     "Path already exists and is directory: ${dest.absolutePath}"
                 )

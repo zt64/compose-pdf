@@ -4,7 +4,7 @@ import com.vanniktech.maven.publish.KotlinMultiplatform
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-import java.util.*
+import java.util.Locale
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -139,10 +139,7 @@ mavenPublishing {
     }
 }
 
-fun KotlinMultiplatformExtension.apple(
-    skipCheck: Boolean = false,
-    configure: KotlinNativeTarget.() -> Unit = {}
-) {
+fun KotlinMultiplatformExtension.apple(skipCheck: Boolean = false, configure: KotlinNativeTarget.() -> Unit = {}) {
     if (!skipCheck) {
         val isMacOs = System
             .getProperty("os.name")

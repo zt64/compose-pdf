@@ -4,15 +4,10 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.coroutines.flow.Flow
 
-public class PdfPage(
-    public val index: Int,
-    public val id: Int
-)
+public class PdfPage(public val index: Int, public val id: Int)
 
 @Stable
-public class LazyPdfPages(
-    public val pages: SnapshotStateList<PdfPage>
-) {
+public class LazyPdfPages(public val pages: SnapshotStateList<PdfPage>) {
     public val itemCount: Int
         get() = pages.size
 

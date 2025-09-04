@@ -43,14 +43,12 @@ internal suspend fun PdfRenderer(uri: Uri): PdfRenderer {
         "file" -> {
             File(uri.path!!)
         }
-
         "http", "https" -> {
             val name = uri.lastPathSegment?.removeSuffix(".pdf") ?: "PdfFile"
             val tempFile = File.createTempFile(name, ".pdf")
             Downloader.download(URL(uri.toString()), tempFile)
             tempFile
         }
-
         else -> {
             throw IllegalArgumentException("Unsupported URI scheme: ${uri.scheme}")
         }
@@ -60,13 +58,10 @@ internal suspend fun PdfRenderer(uri: Uri): PdfRenderer {
     return PdfRenderer(pfd)
 }
 
-internal actual val PdfRenderer.pageCount: Int
+internal actual inline val PdfRenderer.pageCount: Int
     get() = this.pageCount
 
-internal actual suspend inline fun PdfRenderer.renderPage(
-    pageIndex: Int,
-    zoom: Float
-): ImageBitmap {
+internal actual suspend inline fun PdfRenderer.renderPage(pageIndex: Int, zoom: Float): ImageBitmap {
     val page = openPage(pageIndex)
     val width = (page.width * zoom).toInt()
     val height = (page.height * zoom).toInt()
@@ -78,10 +73,7 @@ internal actual suspend inline fun PdfRenderer.renderPage(
     return bitmap.asImageBitmap()
 }
 
-internal actual inline fun PdfRenderer.getPageSize(
-    pageIndex: Int,
-    zoom: Float
-): IntSize {
+internal actual inline fun PdfRenderer.getPageSize(pageIndex: Int, zoom: Float): IntSize {
     val page = openPage(pageIndex)
     val width = (page.width * zoom).toInt()
     val height = (page.height * zoom).toInt()
