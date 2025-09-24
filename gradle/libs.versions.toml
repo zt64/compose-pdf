@@ -1,8 +1,8 @@
 [versions]
-kotlin = "2.2.0"
+kotlin = "2.2.20"
 compose = "1.7.3"
-android = "8.12.0"
-icepdf = "7.3.0"
+android = "8.13.0"
+icepdf = "7.3.1"
 
 # Sample dependency versions
 androidx-activity = "1.9.3"
@@ -13,7 +13,7 @@ zoomable = "0.15.1"
 # Maintenance
 compatibility = "0.18.1"
 publish = "0.33.0"
-ktlintPlugin = "12.3.0"
+ktlintPlugin = "13.1.0"
 ktlint = "1.2.1"
 
 [libraries]
