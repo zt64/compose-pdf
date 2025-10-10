@@ -8,20 +8,22 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.*
 
 /**
- * Pdf state
- *
- * @constructor
+ * Manages the state and lifecycle of a PDF document in a Compose application
  */
 @Stable
 public class PdfState internal constructor() : AutoCloseable {
     private lateinit var renderer: PdfRenderer
-    private val coroutineScope = CoroutineScope(Dispatchers.IO + Job())
+    private val coroutineScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
     private val _loadState = MutableStateFlow<LoadState>(LoadState.Loading)
-    public val loadState: StateFlow<LoadState> get() = _loadState
 
     /**
-     * The number of pages in the PDF document
+     * The current loading state of the entire PDF document.
+     */
+    public val loadState: StateFlow<LoadState> = _loadState.asStateFlow()
+
+    /**
+     * The number of pages in the PDF. Returns 0 until a pdf is loaded.
      */
     public var pageCount: Int by mutableIntStateOf(0)
         private set
@@ -47,18 +49,30 @@ public class PdfState internal constructor() : AutoCloseable {
     }
 
     /**
-     * @param index the page number to render
+     * Renders a specific page as an [ImageBitmap].
+     *
+     * @param index the zero-based page number
+     * @param zoom the amount of zoom to apply as a multiplier (1.0f = 1x zoom)
      */
     public suspend fun loadPage(index: Int, zoom: Float = 1f): ImageBitmap {
-        return withContext(Dispatchers.IO) {
+        return withContext(coroutineScope.coroutineContext) {
             renderer.renderPage(index, zoom)
         }
     }
 
+    /**
+     * Gets the dimensions of a page without rendering it.
+     *
+     * @param index The zero-based page number
+     */
     public fun getPageSize(index: Int): IntSize {
         return renderer.getPageSize(pageIndex = index, zoom = 1f)
     }
 
+    /**
+     * Releases all resources. Call when done with the PDF.
+     * Automatically called when using provided PDF composables.
+     */
     public override fun close() {
         renderer.close()
         coroutineScope.cancel()
