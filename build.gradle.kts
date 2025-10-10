@@ -33,7 +33,7 @@ subprojects {
     tasks.withType<KotlinCompile>().configureEach {
         compilerOptions {
             jvmTarget = JvmTarget.JVM_17
-            freeCompilerArgs.addAll("-Xexpect-actual-classes", "-Xcontext-receivers")
+            freeCompilerArgs.addAll("-Xexpect-actual-classes", "-Xcontext-parameters")
         }
     }
 }
