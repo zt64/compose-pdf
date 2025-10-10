@@ -12,6 +12,23 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.zt64.compose.pdf.PdfState
 
+/**
+ * Displays a vertically scrollable pager for PDF pages.
+ *
+ * @param state The [PdfState] managing the PDF document and its state.
+ * @param pagerState The [PagerState] controlling the pager's scroll position.
+ * @param modifier The [Modifier] to be applied to the pager.
+ * @param page Composable function to display a page at the given index.
+ * @param contentPadding Padding values to be applied around the content.
+ * @param pageSize The size of each page in the pager.
+ * @param beyondViewportPageCount Number of pages to keep composed beyond the viewport.
+ * @param pageSpacing Spacing between pages.
+ * @param horizontalAlignment Horizontal alignment of pages.
+ * @param flingBehavior Fling behavior for scroll gestures.
+ * @param userScrollEnabled Whether user scrolling is enabled.
+ * @param reverseLayout Whether to reverse the layout direction.
+ * @param pageNestedScrollConnection Nested scroll connection for the pager.
+ */
 @Composable
 public fun PdfVerticalPager(
     state: PdfState,
