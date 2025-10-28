@@ -1,3 +1,5 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package dev.zt64.compose.pdf
 
 import androidx.compose.runtime.Composable
@@ -7,7 +9,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import java.io.File
 import java.net.URI
 
-public fun PdfState(uri: URI): PdfState {
+/**
+ * Create a [PdfState] instance from a [URI]
+ */
+public inline fun PdfState(uri: URI): PdfState {
     return PdfState { PdfRenderer(uri) }
 }
 

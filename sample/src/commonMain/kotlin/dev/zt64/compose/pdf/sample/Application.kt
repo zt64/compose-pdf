@@ -28,7 +28,7 @@ import me.saket.telephoto.zoomable.rememberZoomableState
 import me.saket.telephoto.zoomable.zoomable
 import java.net.URI
 
-sealed interface Destination {
+private sealed interface Destination {
     data object Home : Destination
 
     data class Pdf(val pdf: URI) : Destination
@@ -84,7 +84,7 @@ private fun HomeScreen(onSelectPdf: (URI) -> Unit) {
             if (platformFile == null) return@rememberFilePickerLauncher
 
             scope.launch {
-                // onSelectPdf(platformFile.path.toURI())
+                onSelectPdf(URI(platformFile.path!!))
             }
         }
 

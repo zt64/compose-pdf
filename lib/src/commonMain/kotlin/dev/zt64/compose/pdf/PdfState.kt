@@ -44,8 +44,18 @@ public class PdfState internal constructor() : AutoCloseable {
         awaitClose { job.cancel() }
     }
 
+    @PublishedApi
     internal constructor(initBlock: suspend () -> PdfRenderer) : this() {
-        init(initBlock)
+        coroutineScope.launch {
+            try {
+                _loadState.emit(LoadState.Loading)
+                renderer = initBlock()
+                pageCount = renderer.pageCount
+                _loadState.emit(LoadState.Loaded)
+            } catch (e: Exception) {
+                _loadState.emit(LoadState.Error(e))
+            }
+        }
     }
 
     /**
@@ -76,19 +86,6 @@ public class PdfState internal constructor() : AutoCloseable {
     public override fun close() {
         renderer.close()
         coroutineScope.cancel()
-    }
-
-    internal fun init(initBlock: suspend () -> PdfRenderer) {
-        coroutineScope.launch {
-            try {
-                _loadState.emit(LoadState.Loading)
-                renderer = initBlock()
-                pageCount = renderer.pageCount
-                _loadState.emit(LoadState.Loaded)
-            } catch (e: Exception) {
-                _loadState.emit(LoadState.Error(e))
-            }
-        }
     }
 }
 

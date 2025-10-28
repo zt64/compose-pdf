@@ -1,3 +1,5 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package dev.zt64.compose.pdf
 
 import androidx.compose.runtime.Composable
@@ -14,16 +16,12 @@ import java.net.URL
  * @param file
  * @return
  */
-public fun PdfState(file: File): PdfState {
-    return PdfState().apply {
-        init { PdfRenderer(file) }
-    }
+public inline fun PdfState(file: File): PdfState {
+    return PdfState { PdfRenderer(file) }
 }
 
-public fun PdfState(url: URL): PdfState {
-    return PdfState().apply {
-        init { PdfRenderer(url) }
-    }
+public inline fun PdfState(url: URL): PdfState {
+    return PdfState { PdfRenderer(url) }
 }
 
 /**

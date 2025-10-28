@@ -16,18 +16,21 @@ import java.net.URL
 internal actual typealias PdfRenderer = Document
 
 // -- Constructors --
+@PublishedApi
 internal actual inline fun PdfRenderer(file: File): PdfRenderer {
     return PdfRenderer().apply {
         setFile(file.absolutePath)
     }
 }
 
+@PublishedApi
 internal actual suspend inline fun PdfRenderer(url: URL): PdfRenderer {
     return PdfRenderer().apply {
         setUrl(url)
     }
 }
 
+@PublishedApi
 internal inline fun PdfRenderer(uri: URI): PdfRenderer {
     return PdfRenderer().apply {
         if (uri.scheme == "file") {
@@ -45,7 +48,6 @@ internal actual inline val PdfRenderer.pageCount: Int
 // -- Functions --
 internal actual suspend inline fun PdfRenderer.renderPage(pageIndex: Int, zoom: Float): ImageBitmap {
     val image = getPageImage(
-        // pageNumber =
         pageIndex,
         // renderHintType =
         GraphicsRenderingHints.SCREEN,
