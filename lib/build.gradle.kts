@@ -88,7 +88,7 @@ composeCompiler {
 
 android {
     namespace = "dev.zt64.compose.pdf"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 21

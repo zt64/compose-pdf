@@ -57,10 +57,10 @@ kotlin {
 
 android {
     namespace = "dev.zt64.compose.pdf.sample"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
-        targetSdk = 35
+        targetSdk = 36
         minSdk = 24
     }
 

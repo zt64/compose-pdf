@@ -1,21 +1,21 @@
 [versions]
 kotlin = "2.2.21"
-compose = "1.8.2"
-android = "8.12.1"
-icepdf = "7.3.0"
+compose = "1.9.1"
+android = "8.13.0"
+icepdf = "7.3.1"
 coroutines = "1.10.2"
 
 # Sample dependency versions
-androidx-activity = "1.10.1"
+androidx-activity = "1.11.0"
 androidx-appcompat = "1.7.1"
-androidx-core-ktx = "1.16.0"
+androidx-core-ktx = "1.17.0"
 filekit = "0.8.8"
-zoomable = "0.16.0"
+zoomable = "0.18.0"
 
 # Maintenance
 compatibility = "0.18.1"
 publish = "0.34.0"
-ktlintPlugin = "13.0.0"
+ktlintPlugin = "13.1.0"
 ktlint = "1.2.1"
 
 [libraries]
