@@ -26,14 +26,14 @@ allprojects {
     }
 
     group = "dev.zt64"
-    version = "1.2.0"
+    version = "2.0.0"
 }
 
 subprojects {
     tasks.withType<KotlinCompile>().configureEach {
         compilerOptions {
             jvmTarget = JvmTarget.JVM_17
-            freeCompilerArgs.addAll("-Xexpect-actual-classes", "-Xcontext-receivers")
+            freeCompilerArgs.addAll("-Xexpect-actual-classes", "-Xcontext-parameters")
         }
     }
 }

@@ -1,29 +1,34 @@
 [versions]
 kotlin = "2.2.21"
-compose = "1.7.3"
+compose = "1.9.1"
 android = "8.13.0"
 icepdf = "7.3.1"
+coroutines = "1.10.2"
 
 # Sample dependency versions
-androidx-activity = "1.9.3"
+androidx-activity = "1.11.0"
 androidx-appcompat = "1.7.1"
-calf = "0.7.0"
-zoomable = "0.15.1"
+androidx-core-ktx = "1.17.0"
+filekit = "0.8.8"
+zoomable = "0.18.0"
 
 # Maintenance
 compatibility = "0.18.1"
-publish = "0.33.0"
+publish = "0.34.0"
 ktlintPlugin = "13.1.0"
 ktlint = "1.2.1"
 
 [libraries]
 icepdf-core = { module = "com.github.pcorless.icepdf:icepdf-core", version.ref = "icepdf" }
+androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core-ktx" }
+coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "coroutines" }
+coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 
 # Sample dependencies
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
-filePicker = { module = "com.mohamedrejeb.calf:calf-file-picker", version.ref = "calf" }
+filekit = { module = "io.github.vinceglb:filekit-compose", version.ref = "filekit" }
 zoomable = { module = "me.saket.telephoto:zoomable", version.ref = "zoomable" }
 
 [plugins]

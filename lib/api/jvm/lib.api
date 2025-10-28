@@ -1,76 +1,97 @@
-public final class dev/zt64/compose/pdf/LoadState : java/lang/Enum {
-	public static final field Error Ldev/zt64/compose/pdf/LoadState;
-	public static final field Loading Ldev/zt64/compose/pdf/LoadState;
-	public static final field Success Ldev/zt64/compose/pdf/LoadState;
-	public static fun getEntries ()Lkotlin/enums/EnumEntries;
-	public static fun valueOf (Ljava/lang/String;)Ldev/zt64/compose/pdf/LoadState;
-	public static fun values ()[Ldev/zt64/compose/pdf/LoadState;
+public final class dev/zt64/compose/pdf/LazyPdfPages {
+	public static final field $stable I
+	public fun <init> (Landroidx/compose/runtime/snapshots/SnapshotStateList;)V
+	public final fun get (I)Ldev/zt64/compose/pdf/PdfPage;
+	public final fun getItemCount ()I
+	public final fun getPages ()Landroidx/compose/runtime/snapshots/SnapshotStateList;
 }
 
-public final class dev/zt64/compose/pdf/LocalPdfState : dev/zt64/compose/pdf/PdfState {
+public final class dev/zt64/compose/pdf/LazyPdfPagesKt {
+	public static final fun collectAsLazyPdfPages (Lkotlinx/coroutines/flow/Flow;Landroidx/compose/runtime/Composer;I)Ldev/zt64/compose/pdf/LazyPdfPages;
+}
+
+public abstract interface class dev/zt64/compose/pdf/LoadState {
+}
+
+public final class dev/zt64/compose/pdf/LoadState$Error : dev/zt64/compose/pdf/LoadState {
 	public static final field $stable I
-	public fun <init> (Ljava/io/File;)V
-	public fun <init> (Ljava/io/InputStream;)V
-	public fun <init> (Ljava/net/URL;)V
-	public fun <init> (Lorg/icepdf/core/pobjects/Document;)V
+	public fun <init> (Ljava/lang/Exception;)V
+	public final fun component1 ()Ljava/lang/Exception;
+	public final fun copy (Ljava/lang/Exception;)Ldev/zt64/compose/pdf/LoadState$Error;
+	public static synthetic fun copy$default (Ldev/zt64/compose/pdf/LoadState$Error;Ljava/lang/Exception;ILjava/lang/Object;)Ldev/zt64/compose/pdf/LoadState$Error;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getException ()Ljava/lang/Exception;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/zt64/compose/pdf/LoadState$Loaded : dev/zt64/compose/pdf/LoadState {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/zt64/compose/pdf/LoadState$Loaded;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/zt64/compose/pdf/LoadState$Loading : dev/zt64/compose/pdf/LoadState {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/zt64/compose/pdf/LoadState$Loading;
+	public fun equals (Ljava/lang/Object;)Z
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class dev/zt64/compose/pdf/PdfPage {
+	public static final field $stable I
+	public fun <init> (II)V
+	public final fun getId ()I
+	public final fun getIndex ()I
+}
+
+public final class dev/zt64/compose/pdf/PdfState : java/lang/AutoCloseable {
+	public static final field $stable I
 	public fun close ()V
-	public fun getPageCount ()I
-	public fun renderPage (I)Landroidx/compose/ui/graphics/painter/Painter;
+	public final fun getLoadState ()Lkotlinx/coroutines/flow/StateFlow;
+	public final fun getPageCount ()I
+	public final fun getPageSize-YEO4UFw (I)J
+	public final fun getPages ()Lkotlinx/coroutines/flow/Flow;
+	public final fun loadPage (IFLkotlin/coroutines/Continuation;)Ljava/lang/Object;
+	public static synthetic fun loadPage$default (Ldev/zt64/compose/pdf/PdfState;IFLkotlin/coroutines/Continuation;ILjava/lang/Object;)Ljava/lang/Object;
 }
 
-public final class dev/zt64/compose/pdf/LocalPdfState_desktopKt {
-	public static final fun rememberLocalPdfState (Ljava/io/File;Landroidx/compose/runtime/Composer;I)Ldev/zt64/compose/pdf/LocalPdfState;
-	public static final fun rememberLocalPdfState (Ljava/io/InputStream;Landroidx/compose/runtime/Composer;I)Ldev/zt64/compose/pdf/LocalPdfState;
-	public static final fun rememberLocalPdfState (Ljava/net/URL;Landroidx/compose/runtime/Composer;I)Ldev/zt64/compose/pdf/LocalPdfState;
+public final class dev/zt64/compose/pdf/PdfState_jvmCommonKt {
+	public static final fun PdfState (Ljava/io/File;)Ldev/zt64/compose/pdf/PdfState;
+	public static final fun PdfState (Ljava/net/URL;)Ldev/zt64/compose/pdf/PdfState;
+	public static final fun rememberPdfState (Ljava/net/URL;Landroidx/compose/runtime/Composer;I)Ldev/zt64/compose/pdf/PdfState;
 }
 
-public abstract interface class dev/zt64/compose/pdf/PdfState : java/lang/AutoCloseable {
-	public abstract fun getPageCount ()I
-	public abstract fun renderPage (I)Landroidx/compose/ui/graphics/painter/Painter;
+public final class dev/zt64/compose/pdf/PdfState_jvmKt {
+	public static final fun PdfState (Ljava/net/URI;)Ldev/zt64/compose/pdf/PdfState;
+	public static final fun rememberPdfState (Ljava/io/File;Landroidx/compose/runtime/Composer;I)Ldev/zt64/compose/pdf/PdfState;
+	public static final fun rememberPdfState (Ljava/net/URI;Landroidx/compose/runtime/Composer;I)Ldev/zt64/compose/pdf/PdfState;
 }
 
-public final class dev/zt64/compose/pdf/RemotePdfDefaults {
-	public static final field $stable I
-	public static final field INSTANCE Ldev/zt64/compose/pdf/RemotePdfDefaults;
-	public final fun getBlankIcon ()Landroidx/compose/ui/graphics/vector/ImageVector;
-}
-
-public final class dev/zt64/compose/pdf/RemotePdfState : dev/zt64/compose/pdf/PdfState {
-	public static final field $stable I
-	public fun <init> (Ljava/net/URL;Landroidx/compose/ui/graphics/painter/Painter;Landroidx/compose/ui/graphics/painter/Painter;)V
-	public fun close ()V
-	public final fun getErrorPainter ()Landroidx/compose/ui/graphics/painter/Painter;
-	public final fun getLoadState ()Ldev/zt64/compose/pdf/LoadState;
-	public final fun getLoadingPainter ()Landroidx/compose/ui/graphics/painter/Painter;
-	public fun getPageCount ()I
-	public final fun loadPdf ()V
-	public fun renderPage (I)Landroidx/compose/ui/graphics/painter/Painter;
-	public final fun setErrorPainter (Landroidx/compose/ui/graphics/painter/Painter;)V
-	public final fun setLoadingPainter (Landroidx/compose/ui/graphics/painter/Painter;)V
-}
-
-public final class dev/zt64/compose/pdf/RemotePdfState_desktopKt {
-	public static final fun rememberRemotePdfState (Ljava/lang/String;Landroidx/compose/ui/graphics/painter/Painter;Landroidx/compose/ui/graphics/painter/Painter;Landroidx/compose/runtime/Composer;II)Ldev/zt64/compose/pdf/RemotePdfState;
-	public static final fun rememberRemotePdfState (Ljava/net/URL;Landroidx/compose/ui/graphics/painter/Painter;Landroidx/compose/ui/graphics/painter/Painter;Landroidx/compose/runtime/Composer;II)Ldev/zt64/compose/pdf/RemotePdfState;
+public final class dev/zt64/compose/pdf/component/ComposableSingletons$PdfDefaultsKt {
+	public static final field INSTANCE Ldev/zt64/compose/pdf/component/ComposableSingletons$PdfDefaultsKt;
+	public fun <init> ()V
+	public final fun getLambda$-325028430$lib ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-520407490$lib ()Lkotlin/jvm/functions/Function2;
 }
 
 public final class dev/zt64/compose/pdf/component/PdfColumnKt {
-	public static final fun PdfColumn (Ldev/zt64/compose/pdf/PdfState;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;Landroidx/compose/foundation/lazy/LazyListState;Landroidx/compose/foundation/layout/PaddingValues;ZLandroidx/compose/foundation/layout/Arrangement$Vertical;Landroidx/compose/ui/Alignment$Horizontal;Landroidx/compose/foundation/gestures/FlingBehavior;ZLandroidx/compose/runtime/Composer;II)V
+	public static final fun PdfColumn (Ldev/zt64/compose/pdf/PdfState;Landroidx/compose/ui/Modifier;FLkotlin/jvm/functions/Function3;Landroidx/compose/foundation/lazy/LazyListState;Landroidx/compose/foundation/layout/PaddingValues;ZLandroidx/compose/foundation/layout/Arrangement$Vertical;Landroidx/compose/ui/Alignment$Horizontal;Landroidx/compose/foundation/gestures/FlingBehavior;ZLandroidx/compose/runtime/Composer;III)V
 }
 
 public final class dev/zt64/compose/pdf/component/PdfDefaults {
 	public static final field $stable I
 	public static final field INSTANCE Ldev/zt64/compose/pdf/component/PdfDefaults;
+	public final fun PdfPage (Ldev/zt64/compose/pdf/PdfState;ILandroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Landroidx/compose/ui/layout/ContentScale;Landroidx/compose/runtime/Composer;II)V
 	public final fun getPageHorizontalSpacing-D9Ej5fM ()F
 	public final fun getPageVerticalSpacing-D9Ej5fM ()F
 }
 
 public final class dev/zt64/compose/pdf/component/PdfHorizontalPagerKt {
 	public static final fun PdfHorizontalPager-xKBSf-U (Ldev/zt64/compose/pdf/PdfState;Landroidx/compose/foundation/pager/PagerState;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/pager/PageSize;IFLandroidx/compose/ui/Alignment$Vertical;Landroidx/compose/foundation/gestures/TargetedFlingBehavior;ZZLandroidx/compose/ui/input/nestedscroll/NestedScrollConnection;Landroidx/compose/runtime/Composer;III)V
-}
-
-public final class dev/zt64/compose/pdf/component/PdfPageKt {
-	public static final fun PdfPage-qhFBPw4 (Ldev/zt64/compose/pdf/PdfState;ILandroidx/compose/ui/Modifier;JJFLkotlin/jvm/functions/Function2;Lkotlin/jvm/functions/Function2;Landroidx/compose/ui/layout/ContentScale;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class dev/zt64/compose/pdf/component/PdfVerticalPagerKt {

@@ -35,7 +35,7 @@ kotlin {
                 implementation(compose.material3)
                 implementation(compose.materialIconsExtended)
 
-                implementation(libs.filePicker)
+                implementation(libs.filekit)
                 implementation(libs.zoomable)
             }
         }
@@ -57,10 +57,10 @@ kotlin {
 
 android {
     namespace = "dev.zt64.compose.pdf.sample"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
-        targetSdk = 34
+        targetSdk = 36
         minSdk = 24
     }
 
@@ -81,10 +81,14 @@ compose.desktop {
         mainClass = "dev.zt64.compose.pdf.sample.MainKt"
 
         nativeDistributions {
-            modules("java.instrument", "java.net.http")
+            modules("java.instrument", "java.net.http", "jdk.security.auth")
             targetFormats(TargetFormat.Deb)
 
             packageName = "ComposePdf"
+
+            linux {
+                modules("jdk.security.auth")
+            }
         }
     }
 }
