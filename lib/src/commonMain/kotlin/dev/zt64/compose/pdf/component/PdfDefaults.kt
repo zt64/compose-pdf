@@ -11,7 +11,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
-import dev.zt64.compose.pdf.LoadState
+import dev.zt64.compose.pdf.PdfLoadState
 import dev.zt64.compose.pdf.PdfState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,19 +39,19 @@ public object PdfDefaults {
         errorIndicator: @Composable () -> Unit = {},
         contentScale: ContentScale = ContentScale.FillWidth
     ) {
-        var pageLoadState by remember { mutableStateOf<LoadState>(LoadState.Loading) }
+        var pageLoadState by remember { mutableStateOf<PdfLoadState>(PdfLoadState.Loading) }
         var bitmap by remember { mutableStateOf<ImageBitmap?>(null) }
         val scope = rememberCoroutineScope()
 
         LaunchedEffect(index) {
             try {
                 scope.launch(Dispatchers.IO) {
-                    pageLoadState = LoadState.Loading
+                    pageLoadState = PdfLoadState.Loading
                     bitmap = state.loadPage(index)
-                    pageLoadState = LoadState.Loaded
+                    pageLoadState = PdfLoadState.Loaded
                 }
             } catch (e: Exception) {
-                pageLoadState = LoadState.Error(e)
+                pageLoadState = PdfLoadState.Error(e)
             }
         }
 
@@ -62,7 +62,7 @@ public object PdfDefaults {
         }
 
         when (pageLoadState) {
-            LoadState.Loaded -> {
+            PdfLoadState.Loaded -> {
                 Image(
                     modifier = Modifier
                         .widthIn(max = 600.dp)
@@ -72,7 +72,7 @@ public object PdfDefaults {
                     contentScale = contentScale
                 )
             }
-            is LoadState.Error -> {
+            is PdfLoadState.Error -> {
                 Box(
                     modifier = modifier.size(pageSize),
                     contentAlignment = Alignment.Center
@@ -80,7 +80,7 @@ public object PdfDefaults {
                     errorIndicator()
                 }
             }
-            LoadState.Loading -> {
+            PdfLoadState.Loading -> {
                 Box(
                     modifier = modifier.size(pageSize),
                     contentAlignment = Alignment.Center

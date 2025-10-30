@@ -29,7 +29,7 @@ class PdfTest {
         }
 
         compose.waitUntil(10000) {
-            state.loadState.value == LoadState.Loaded
+            state.loadState.value == PdfLoadState.Loaded
         }
 
         compose.runOnIdle {
@@ -49,7 +49,7 @@ class PdfTest {
         }
 
         compose.waitUntil(10000) {
-            state.loadState.value == LoadState.Loaded
+            state.loadState.value == PdfLoadState.Loaded
         }
 
         compose.runOnIdle {

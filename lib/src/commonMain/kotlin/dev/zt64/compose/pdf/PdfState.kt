@@ -15,12 +15,12 @@ public class PdfState internal constructor() : AutoCloseable {
     private lateinit var renderer: PdfRenderer
     private val coroutineScope = CoroutineScope(Dispatchers.Default + SupervisorJob())
 
-    private val _loadState = MutableStateFlow<LoadState>(LoadState.Loading)
+    private val _loadState = MutableStateFlow<PdfLoadState>(PdfLoadState.Loading)
 
     /**
      * The current loading state of the entire PDF document.
      */
-    public val loadState: StateFlow<LoadState> = _loadState.asStateFlow()
+    public val loadState: StateFlow<PdfLoadState> = _loadState.asStateFlow()
 
     /**
      * The number of pages in the PDF. Returns 0 until a pdf is loaded.
@@ -34,7 +34,7 @@ public class PdfState internal constructor() : AutoCloseable {
     public val pages: Flow<PdfPage> = channelFlow {
         val job = coroutineScope.launch {
             loadState.collectLatest { state ->
-                if (state == LoadState.Loaded) {
+                if (state == PdfLoadState.Loaded) {
                     for (index in 0 until pageCount) {
                         send(PdfPage(index, index)) // TODO: use id
                     }
@@ -48,12 +48,12 @@ public class PdfState internal constructor() : AutoCloseable {
     internal constructor(initBlock: suspend () -> PdfRenderer) : this() {
         coroutineScope.launch {
             try {
-                _loadState.emit(LoadState.Loading)
+                _loadState.emit(PdfLoadState.Loading)
                 renderer = initBlock()
                 pageCount = renderer.pageCount
-                _loadState.emit(LoadState.Loaded)
+                _loadState.emit(PdfLoadState.Loaded)
             } catch (e: Exception) {
-                _loadState.emit(LoadState.Error(e))
+                _loadState.emit(PdfLoadState.Error(e))
             }
         }
     }
@@ -90,12 +90,26 @@ public class PdfState internal constructor() : AutoCloseable {
 }
 
 /**
- * The state of loading a PDF file
+ * Represents the loading lifecycle of a PDF document
+ *
+ * Consumers should check for [Loaded] before calling renderer-dependent APIs such as `loadPage` or
+ * `getPageSize`.
  */
-public sealed interface LoadState {
-    public data object Loading : LoadState
+public sealed interface PdfLoadState {
+    /**
+     * The document is currently being opened/parsed and the renderer is not yet ready.
+     */
+    public data object Loading : PdfLoadState
 
-    public data object Loaded : LoadState
+    /**
+     * The document was opened successfully and the renderer is ready to use.
+     */
+    public data object Loaded : PdfLoadState
 
-    public data class Error(public val exception: Exception) : LoadState
+    /**
+     * The document failed to open/parse throwing an exception.
+     *
+     * @param exception The captured exception
+     */
+    public data class Error(public val exception: Exception) : PdfLoadState
 }

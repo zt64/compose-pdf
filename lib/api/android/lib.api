@@ -10,32 +10,32 @@ public final class dev/zt64/compose/pdf/LazyPdfPagesKt {
 	public static final fun collectAsLazyPdfPages (Lkotlinx/coroutines/flow/Flow;Landroidx/compose/runtime/Composer;I)Ldev/zt64/compose/pdf/LazyPdfPages;
 }
 
-public abstract interface class dev/zt64/compose/pdf/LoadState {
+public abstract interface class dev/zt64/compose/pdf/PdfLoadState {
 }
 
-public final class dev/zt64/compose/pdf/LoadState$Error : dev/zt64/compose/pdf/LoadState {
+public final class dev/zt64/compose/pdf/PdfLoadState$Error : dev/zt64/compose/pdf/PdfLoadState {
 	public static final field $stable I
 	public fun <init> (Ljava/lang/Exception;)V
 	public final fun component1 ()Ljava/lang/Exception;
-	public final fun copy (Ljava/lang/Exception;)Ldev/zt64/compose/pdf/LoadState$Error;
-	public static synthetic fun copy$default (Ldev/zt64/compose/pdf/LoadState$Error;Ljava/lang/Exception;ILjava/lang/Object;)Ldev/zt64/compose/pdf/LoadState$Error;
+	public final fun copy (Ljava/lang/Exception;)Ldev/zt64/compose/pdf/PdfLoadState$Error;
+	public static synthetic fun copy$default (Ldev/zt64/compose/pdf/PdfLoadState$Error;Ljava/lang/Exception;ILjava/lang/Object;)Ldev/zt64/compose/pdf/PdfLoadState$Error;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getException ()Ljava/lang/Exception;
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class dev/zt64/compose/pdf/LoadState$Loaded : dev/zt64/compose/pdf/LoadState {
+public final class dev/zt64/compose/pdf/PdfLoadState$Loaded : dev/zt64/compose/pdf/PdfLoadState {
 	public static final field $stable I
-	public static final field INSTANCE Ldev/zt64/compose/pdf/LoadState$Loaded;
+	public static final field INSTANCE Ldev/zt64/compose/pdf/PdfLoadState$Loaded;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
 }
 
-public final class dev/zt64/compose/pdf/LoadState$Loading : dev/zt64/compose/pdf/LoadState {
+public final class dev/zt64/compose/pdf/PdfLoadState$Loading : dev/zt64/compose/pdf/PdfLoadState {
 	public static final field $stable I
-	public static final field INSTANCE Ldev/zt64/compose/pdf/LoadState$Loading;
+	public static final field INSTANCE Ldev/zt64/compose/pdf/PdfLoadState$Loading;
 	public fun equals (Ljava/lang/Object;)Z
 	public fun hashCode ()I
 	public fun toString ()Ljava/lang/String;
