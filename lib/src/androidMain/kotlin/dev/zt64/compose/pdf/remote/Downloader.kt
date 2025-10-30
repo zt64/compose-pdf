@@ -7,6 +7,7 @@ import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
 
+@PublishedApi
 internal object Downloader {
     /**
      * @param url Url of the file you wish to download

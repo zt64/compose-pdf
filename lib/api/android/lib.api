@@ -48,8 +48,14 @@ public final class dev/zt64/compose/pdf/PdfPage {
 	public final fun getIndex ()I
 }
 
+public final class dev/zt64/compose/pdf/PdfRenderer_androidKt {
+	public static final fun PdfRenderer (Ljava/io/File;)Landroid/graphics/pdf/PdfRenderer;
+	public static final fun PdfRenderer (Ljava/net/URL;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
 public final class dev/zt64/compose/pdf/PdfState : java/lang/AutoCloseable {
 	public static final field $stable I
+	public fun <init> (Lkotlin/jvm/functions/Function1;)V
 	public fun close ()V
 	public final fun getLoadState ()Lkotlinx/coroutines/flow/StateFlow;
 	public final fun getPageCount ()I
@@ -98,5 +104,11 @@ public final class dev/zt64/compose/pdf/component/PdfHorizontalPagerKt {
 
 public final class dev/zt64/compose/pdf/component/PdfVerticalPagerKt {
 	public static final fun PdfVerticalPager-xKBSf-U (Ldev/zt64/compose/pdf/PdfState;Landroidx/compose/foundation/pager/PagerState;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function3;Landroidx/compose/foundation/layout/PaddingValues;Landroidx/compose/foundation/pager/PageSize;IFLandroidx/compose/ui/Alignment$Horizontal;Landroidx/compose/foundation/gestures/TargetedFlingBehavior;ZZLandroidx/compose/ui/input/nestedscroll/NestedScrollConnection;Landroidx/compose/runtime/Composer;III)V
+}
+
+public final class dev/zt64/compose/pdf/remote/Downloader {
+	public static final field $stable I
+	public static final field INSTANCE Ldev/zt64/compose/pdf/remote/Downloader;
+	public final fun download (Ljava/net/URL;Ljava/io/File;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
 }
 

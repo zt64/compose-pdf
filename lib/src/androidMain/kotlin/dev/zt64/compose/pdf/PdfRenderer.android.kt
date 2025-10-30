@@ -17,6 +17,7 @@ import java.net.URL
 
 internal actual typealias PdfRenderer = android.graphics.pdf.PdfRenderer
 
+@PublishedApi
 internal actual inline fun PdfRenderer(file: File): PdfRenderer {
     return PdfRenderer(
         ParcelFileDescriptor.open(
@@ -26,6 +27,7 @@ internal actual inline fun PdfRenderer(file: File): PdfRenderer {
     )
 }
 
+@PublishedApi
 internal actual suspend inline fun PdfRenderer(url: URL): PdfRenderer {
     val name = url.path.split("/").lastOrNull()?.removeSuffix(".pdf") ?: "PdfFile"
     val pdfFile = File.createTempFile(name, ".pdf")

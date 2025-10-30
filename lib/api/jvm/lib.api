@@ -48,8 +48,15 @@ public final class dev/zt64/compose/pdf/PdfPage {
 	public final fun getIndex ()I
 }
 
+public final class dev/zt64/compose/pdf/PdfRenderer_jvmKt {
+	public static final fun PdfRenderer (Ljava/io/File;)Lorg/icepdf/core/pobjects/Document;
+	public static final fun PdfRenderer (Ljava/net/URI;)Lorg/icepdf/core/pobjects/Document;
+	public static final fun PdfRenderer (Ljava/net/URL;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;
+}
+
 public final class dev/zt64/compose/pdf/PdfState : java/lang/AutoCloseable {
 	public static final field $stable I
+	public fun <init> (Lkotlin/jvm/functions/Function1;)V
 	public fun close ()V
 	public final fun getLoadState ()Lkotlinx/coroutines/flow/StateFlow;
 	public final fun getPageCount ()I
