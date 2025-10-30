@@ -15,6 +15,15 @@ import kotlinx.coroutines.flow.Flow
  */
 public class PdfPage(public val index: Int, public val id: Int)
 
+/**
+ * A stable wrapper around a mutable state list of [PdfPage] items for use in lazy layouts.
+ *
+ * Exposes the observable [pages] list and convenience helpers such as [itemCount] and the
+ * index operator.
+ *
+ * @property pages The underlying [SnapshotStateList] of [PdfPage] items observed by Compose.
+ * @property itemCount The current number of pages.
+ */
 @Stable
 public class LazyPdfPages(public val pages: SnapshotStateList<PdfPage>) {
     public val itemCount: Int

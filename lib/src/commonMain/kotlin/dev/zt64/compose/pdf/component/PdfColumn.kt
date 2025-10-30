@@ -15,19 +15,22 @@ import dev.zt64.compose.pdf.PdfState
 import dev.zt64.compose.pdf.collectAsLazyPdfPages
 
 /**
- * Displays a vertical, scrollable list of PDF pages.
+ * Displays a vertically scrollable list of PDF pages backed by a [PdfState].
  *
- * @param state The [PdfState] containing the PDF document and its pages.
- * @param modifier Modifier for styling and layout.
- * @param zoom The zoom factor for rendering pages.
- * @param page
- * @param lazyListState State object for controlling and observing the scroll position.
- * @param contentPadding Padding around the content.
- * @param reverseLayout If true, reverses the order of pages.
- * @param verticalArrangement Arrangement of items vertically.
- * @param horizontalAlignment Alignment of items horizontally.
- * @param flingBehavior Customizes the fling (scroll) behavior.
- * @param userScrollEnabled Enables or disables user scrolling.
+ * This composable collects pages from [PdfState] using [collectAsLazyPdfPages] and displays them
+ * in a [LazyColumn] with stable item keys.
+ *
+ * @param state The [PdfState] providing document and page data.
+ * @param modifier Modifier to be passed to the inner [LazyColumn] for layout and appearance.
+ * @param zoom The scale factor applied when rendering each page.
+ * @param page A composable lambda that renders a single page.
+ * @param lazyListState A [LazyListState] to control and observe scrolling.
+ * @param contentPadding Padding applied around the list content.
+ * @param reverseLayout If true, items are laid out in reverse order.
+ * @param verticalArrangement How items are arranged vertically (spacing/alignment).
+ * @param horizontalAlignment How items are aligned horizontally within the column.
+ * @param flingBehavior Custom [FlingBehavior] for scroll fling interactions.
+ * @param userScrollEnabled Whether user-initiated scrolling is allowed.
  */
 @Composable
 public fun PdfColumn(
@@ -35,10 +38,7 @@ public fun PdfColumn(
     modifier: Modifier = Modifier,
     zoom: Float = 1f,
     page: @Composable (index: Int) -> Unit = { index ->
-        PdfDefaults.PdfPage(
-            state = state,
-            index = index
-        )
+        PdfDefaults.PdfPage(state, index)
     },
     lazyListState: LazyListState = rememberLazyListState(),
     contentPadding: PaddingValues = PaddingValues(0.dp),

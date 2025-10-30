@@ -11,14 +11,23 @@ import androidx.core.net.toUri
 import java.io.File
 import java.net.URI
 
+/**
+ * Create a [PdfState] from a [ParcelFileDescriptor].
+ */
 public fun PdfState(parcelFileDescriptor: ParcelFileDescriptor): PdfState {
     return PdfState { PdfRenderer(parcelFileDescriptor) }
 }
 
+/**
+ * Create a [PdfState] from a [Uri].
+ */
 public fun PdfState(uri: Uri): PdfState {
     return PdfState { PdfRenderer(uri) }
 }
 
+/**
+ * Remember a [PdfState] for the given [ParcelFileDescriptor].
+ */
 @Composable
 public fun rememberPdfState(pfd: ParcelFileDescriptor): PdfState {
     val state = rememberSaveable(
@@ -38,6 +47,9 @@ public fun rememberPdfState(pfd: ParcelFileDescriptor): PdfState {
     return state
 }
 
+/**
+ * Remember a [PdfState] for the given [file].
+ */
 @Composable
 public actual fun rememberPdfState(file: File): PdfState {
     require(file.exists()) { "File does not exist" }
@@ -46,17 +58,17 @@ public actual fun rememberPdfState(file: File): PdfState {
     return rememberPdfState(ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY))
 }
 
+/**
+ * Remember a [PdfState] for the given [uri]. Disposes the state when leaving composition.
+ */
 @Composable
 public actual fun rememberPdfState(uri: URI): PdfState {
-    // Save just the URI string
     val uriString = rememberSaveable { uri.toString() }
 
-    // Create the PdfState object using the saved URI string
     val state = remember(uriString) {
         PdfState(uriString.toUri())
     }
 
-    // Clean up when disposed
     DisposableEffect(state) {
         onDispose { state.close() }
     }

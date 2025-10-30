@@ -16,8 +16,18 @@ import dev.zt64.compose.pdf.PdfState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/**
+ * Collection of default values
+ */
 public object PdfDefaults {
+    /**
+     * Default spacing between pages in the [PdfHorizontalPager] component.
+     */
     public val PageHorizontalSpacing: Dp = 16.dp
+
+    /**
+     * Default spacing between pages in the [PdfVerticalPager] component.
+     */
     public val PageVerticalSpacing: Dp = 16.dp
 
     /**

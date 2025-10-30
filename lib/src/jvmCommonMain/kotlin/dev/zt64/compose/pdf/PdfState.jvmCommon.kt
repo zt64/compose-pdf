@@ -11,33 +11,27 @@ import java.net.URI
 import java.net.URL
 
 /**
- * Create a [PdfState] for the given [file].
- *
- * @param file
- * @return
+ * Create a [PdfState] from a [file].
  */
 public inline fun PdfState(file: File): PdfState {
     return PdfState { PdfRenderer(file) }
 }
 
+/**
+ * Create a [PdfState] from a [url].
+ */
 public inline fun PdfState(url: URL): PdfState {
     return PdfState { PdfRenderer(url) }
 }
 
 /**
- * Remember pdf state for the given [file].
- *
- * @param file
- * @return
+ * Remember a [PdfState] for the given [file].
  */
 @Composable
 public expect fun rememberPdfState(file: File): PdfState
 
 /**
- * Remember pdf state for the given [url].
- *
- * @param url
- * @return
+ * Remember a [PdfState] for the given [url]. Disposes the state when leaving composition.
  */
 @Composable
 public fun rememberPdfState(url: URL): PdfState {
@@ -59,10 +53,7 @@ public fun rememberPdfState(url: URL): PdfState {
 }
 
 /**
- * Remember pdf state for the given [uri].
- *
- * @param uri
- * @return
+ * Remember a [PdfState] for the given [uri].
  */
 @Composable
 public expect fun rememberPdfState(uri: URI): PdfState

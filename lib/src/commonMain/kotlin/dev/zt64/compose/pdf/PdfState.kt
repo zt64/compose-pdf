@@ -23,7 +23,7 @@ public class PdfState internal constructor() : AutoCloseable {
     public val loadState: StateFlow<PdfLoadState> = _loadState.asStateFlow()
 
     /**
-     * The number of pages in the PDF. Returns 0 until a pdf is loaded.
+     * The number of pages in the PDF. Returns 0 until a pdf is loaded as indicated by the [loadState].
      */
     public var pageCount: Int by mutableIntStateOf(0)
         private set
@@ -92,8 +92,8 @@ public class PdfState internal constructor() : AutoCloseable {
 /**
  * Represents the loading lifecycle of a PDF document
  *
- * Consumers should check for [Loaded] before calling renderer-dependent APIs such as `loadPage` or
- * `getPageSize`.
+ * Consumers should check for [Loaded] before calling renderer-dependent APIs such as [PdfState.loadPage] or
+ * [PdfState.getPageSize].
  */
 public sealed interface PdfLoadState {
     /**

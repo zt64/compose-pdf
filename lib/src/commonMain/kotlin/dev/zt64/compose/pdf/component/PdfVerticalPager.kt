@@ -17,10 +17,10 @@ import dev.zt64.compose.pdf.PdfState
  *
  * @param state The [PdfState] managing the PDF document and its state.
  * @param pagerState The [PagerState] controlling the pager's scroll position.
- * @param modifier The [Modifier] to be applied to the pager.
- * @param page Composable function to display a page at the given index.
+ * @param modifier The [Modifier] to be applied to inner [VerticalPager].
+ * @param page Composable lambda that renders a single page.
  * @param contentPadding Padding values to be applied around the content.
- * @param pageSize The size of each page in the pager.
+ * @param pageSize The [PageSize] of each page in the pager.
  * @param beyondViewportPageCount Number of pages to keep composed beyond the viewport.
  * @param pageSpacing Spacing between pages.
  * @param horizontalAlignment Horizontal alignment of pages.
@@ -40,7 +40,7 @@ public fun PdfVerticalPager(
             index = it
         )
     },
-    contentPadding: PaddingValues = PaddingValues(0.dp),
+    contentPadding: PaddingValues = PaddingValues.Zero,
     pageSize: PageSize = PageSize.Fill,
     beyondViewportPageCount: Int = 0,
     pageSpacing: Dp = 0.dp,
