@@ -14,7 +14,7 @@ zoomable = "0.18.0"
 
 # Maintenance
 compatibility = "0.18.1"
-publish = "0.34.0"
+publish = "0.35.0"
 ktlintPlugin = "13.1.0"
 ktlint = "1.2.1"
 
