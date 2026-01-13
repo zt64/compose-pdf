@@ -1,6 +1,6 @@
 [versions]
 kotlin = "2.3.0"
-compose = "1.9.3"
+compose = "1.10.0"
 android = "8.13.2"
 icepdf = "7.3.1"
 coroutines = "1.10.2"
