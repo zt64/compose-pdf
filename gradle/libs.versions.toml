@@ -2,7 +2,7 @@
 kotlin = "2.3.10"
 compose = "1.10.1"
 android = "8.13.2"
-icepdf = "7.3.1"
+icepdf = "7.3.2"
 coroutines = "1.10.2"
 
 # Sample dependency versions
