@@ -10,7 +10,7 @@ androidx-activity = "1.13.0"
 androidx-appcompat = "1.7.1"
 androidx-core-ktx = "1.18.0"
 filekit = "0.8.8"
-zoomable = "0.18.0"
+zoomable = "0.19.0"
 
 # Maintenance
 compatibility = "0.18.1"
