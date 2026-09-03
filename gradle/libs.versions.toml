@@ -8,7 +8,7 @@ coroutines = "1.11.0"
 # Sample dependency versions
 androidx-activity = "1.13.0"
 androidx-appcompat = "1.8.0"
-androidx-core-ktx = "1.18.0"
+androidx-core-ktx = "1.19.0"
 filekit = "0.8.8"
 zoomable = "0.19.0"
 
